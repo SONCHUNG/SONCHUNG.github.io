@@ -1,0 +1,149 @@
+# 제약조건
+
+## 1.도메인 제약조건 (유효한 값의 범위)
+
+**속성에 도메인이 아닌 값이 올 수 없도록 하는 제약조건**
+
+-   NOT NULL
+    -   컬럼 중에 필수 컬럼이 있다. 필수 컬럼은 NULL이 되면 안된다.
+    -   필수 데이터 중에 사용자가 입력 해야 할 것과 입력하지 않아도 될 것이 있다.
+-   DEFAULT
+    -   기본값을 깔아 줌으로써 올바른 값을 받을 수 있게 할 수 있다.
+    -   날짜에 관련된 디폴트 값 입력 시 함수. [w3schools](https://www.w3schools.com/sql/func_mysql_current_date.asp)
+        -   ex) CURRENT\_TIME(), CURRENT\_TIMESTAMP(), CURRENT\_DATE()
+-   CHECK
+    -   조건문을 사용 할 수 있도록 하는 제약조건. [w3schools](https://www.w3schools.com/mysql/mysql_check.asp)
+    -   `// CHECK Constraint CREATE TABLE Persons ( ID int NOT NULL, LastName varchar(255) NOT NULL, FirstName varchar(255), Age int, City varchar(255), CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes') // 제약조건에 이름을 지정 해 줄 수 있다. <CHK_Person> );`
+    -   <chk\_테이블명\_컬럼명> 처럼 규칙을 만들어 사용해야 기억하기에 좋다.
+
+[##_Image|kage@HKpL9/btr3V8nNn8N/Xp7XeYW8rotJuDpoCpCkk0/img.png|CDM|1.3|{"originWidth":1168,"originHeight":380,"style":"alignCenter"}_##]
+
+````
+
+
+``` sql
+// 쿼리문 이용 시
+create table member(
+id int not null,
+name varchar(200) not null default 'name',
+);
+
+  CREATE TABLE IF NOT EXISTS `gamjadb`.`son` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(450) NOT NULL,
+`age` INT NULL,
+`regdate` DATETIME NOT NULL DEFAULT CURRENT_TIME(),
+`level` INT NOT NULL DEFAULT 1,
+`active` INT NOT NULL DEFAULT 0,
+PRIMARY KEY (`id`))
+```
+````
+
+---
+
+## 2.엔티티 제약조건
+
+-   Primary Key(PK)
+    -   테이블에서 대표되는 컬럼을 의미
+-   UNIQUE(UQ)
+    -   중복성 배제, 유일한 값으로 존재해야 함.
+
+---
+
+## 3.관계
+
+---
+
+## datatime과 timestamp의 차이?
+
+-   TIMEZONE이 적용되는지의 여부.
+
+---
+
+# 키의 종류
+
+**다른 레코드와 반드시 식별 할 수 있도록 하기 위해 사용한다.**
+
+-   기본키(Primary Key : PK)
+    -   레코드를 식별 할 수있도록 하는 컬럼
+    -   기본키는 무엇으로 삼아야 하는가?
+    -   중복, NULL 불가능
+-   후보키
+    -   기본키가 될 수 있는 후보 칼럼
+-   대체키
+    -   후보키 중 기본키로 선택받지 못한 키
+-   대리키
+    -   현재 컬럼에 있는것으로는 PK로 사용 할수 없을때 가져오는 키
+    -   ex) 아이디, 번호, 코드
+    -   탈퇴하더라도 식별자는 남을 수 있도록 대리키를 사용하는 것이 더 좋다.
+-   외래키
+    -   해당 컬럼에 참조하는 테이블로부터 존재하는 값들만 사용한다는 의미.
+-   수퍼키(복합키)
+    -   다대다 관계에서 두 개 이상의 부모의 참조키를 가지고 식별관계를 가지고 만들어지는 키
+
+---
+
+# 트랜잭션
+
+### 트랜잭션 전파방식 설정
+
+### 트랜잭션 동시성에 따른 조회 문제점들
+
+-   제대로 처리하지 않으면 Dirty read가 발생 할 수 있다.
+
+[##_Image|kage@c0lhvC/btr35wguhAg/ySYKYmsSJ4hPbLyN9eqhkK/img.png|CDM|1.3|{"originWidth":1688,"originHeight":854,"style":"alignCenter"}_##]
+
+## 고립도 설정
+
+-   동기화에 대한 옵션.
+-   성능을 위해 설정을 변경 할 수 있다.
+    
+    ```
+    @Transactional(isolation = ??)
+    ```
+    
+    Dirty read
+-   취소 될 내용을 읽음.
+-   update + insert = hitup
+-   update 됐는데 insert 에서 오류남 = 롤백
+-   update된걸 다른 스레드가 롤백이 일어나기전에 데이터를 읽게된다면.. Dirty read 다.
+-   오라클의 디폴트는 READ\_COMMITTED이다. 그래서 Dirty read가 발생하는 경우는 없다.
+-   그러나 옵션을 변경하게 된다면 발생 할 수도 있다.
+    -   옵션을 느슨하게 변경하는 이유(고립화를 느슨하게 만드는 이유) : 성능
+    -   성능도 중요하지만 신뢰성도 중요하다면 옵션을 변경하지 못함.
+    -   상황에 따라 적절하게 옵션을 바꿀 수 있어야 한다.
+
+#### READ-UNCOMMITTED
+
+#### READ-COMMITTED
+
+#### REPEATABLE READ
+
+-   중간에 데이터가 사라지게되어 다시 읽을 수 없게 됨.
+-   데이터를 읽어들이기만 해도 기다려야함. 기다리는 범주가 더 길어짐.Phantom read
+-   삭제될 녀석을 읽어들이는 것.
+-   데이터를 읽는 순간 해당 테이블 자체에 접근 불가능.  
+    [##_Image|kage@ceGZRX/btr35EZW7XM/OqPxdpO1yXRlVxqrW3KnX0/img.png|CDM|1.3|{"originWidth":588,"originHeight":281,"style":"alignCenter"}_##]
+
+## 전파옵션
+
+-   트랜잭션 처리에서 전파의 정도를 설정 해줄 수 있다. (다시 찾아봐야함)
+-   전파옵션은 호출자의 자식이 가지게 된다.![](https://blog.kakaocdn.net/dn/SH2Ys/btr35vWfzgM/22hgcLgp4wDRTmysv6XqR0/img.png)
+-   `@Transactional(propagation = ??)`
+-   MANDATORY
+    -   호출자가 트랜잭션이 없다면 날 호출하지 마라.
+-   NESTED
+    -   서비스에서 트랜잭션을 가져옴. 트랜잭션 안쪽에서 트랜잭션을 진행한다.
+    -   현재 트랜잭션이 있다면 부모의 트랜잭션에 끼진 않음.
+-   NEVER
+    -   트랜잭션 지원하지않겠다. 나 실행하면 화낼거야.
+-   NOT\_SUPPORTED
+    -   난 트랜잭션 안할거야. 나보고 하라고하지마, 지원도 안할거야. 만약 나를 호출했다면 기다려. 나를 껴주지 마
+    -   만약 하나의 트랜잭션이 있음. 그럼 기다려, 나 실행되고 넌 다음것을 실행해라.
+-   REQUIRED
+    -   현재 트랜잭션이 있으면 지원해주긴 함, 만약에 없으면 나 자체로는 필요하기때문에 내가 만들어서 트랜잭션을 처리함.
+-   REQUIRED\_NEW
+    -   무조건 새로운 트랜잭션을 만들게 되어있음, 부모의 트랜잭션은 나를 엮지말라(그 원자성에 나를 껴넣지 말아라),  
+        항상 새로운 트랜잭션을 만듦, 부모와 전혀 상관없이 나만의 트랜잭션을 가져감.
+-   SUPPORTS
+    -   트랜잭션을 가져왔으면 지원해줌. 트랜잭션 없으면 안해도 됨. 난 딱히 트랜잭션이 필요하진 않아.
