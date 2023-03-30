@@ -1,5 +1,6 @@
 package com.modeul.web.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +17,31 @@ public class StuffServiceImpl implements StuffService{
 	StuffRepository repository;
 	
 	@Override
-	public int regStuff() {
+	public int regStuff(String title, String place, String numPeople, LocalDateTime deadline, String price, String url, String content) {
 		// TODO Auto-generated method stub
-		return 0;
+		return repository.insert(title, place, numPeople, deadline, price, url, content);
 	}
-
 	@Override
 	public List<StuffView> getViewList() {
 		// TODO Auto-generated method stub
-		return null;
+		List<StuffView> list = repository.findViewAll();
+
+		return list;
 	}
 
 	@Override
-	public Stuff getById() {
+	public List<StuffView> getViewList(Integer categoryId) {
 		// TODO Auto-generated method stub
-		return null;
+		List<StuffView> list = repository.findViewAll(categoryId);
+		return list;
 	}
+
+	@Override
+	public Stuff getById(Long id) {
+		// TODO Auto-generated method stub
+		return repository.findById(id);
+	}
+
+
 	
 }

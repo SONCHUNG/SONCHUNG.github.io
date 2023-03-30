@@ -36,7 +36,7 @@
   #은 ''를 붙여서 SQL문에 값이 들어간다. --> 
   <select id="findViewAll" resultMap="stuffViewResultMap">
   	select *
-  	from stuff_view_jh
+  	from list_view_son
   	<trim prefix="WHERE" prefixOverrides="AND | OR">
   		<if test="query != null">
   			title like '%${query}%'

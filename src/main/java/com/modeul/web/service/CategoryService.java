@@ -7,6 +7,6 @@ import com.modeul.web.entity.Category;
 public interface CategoryService{
 	
 	List<Category> getList();
-	String getNameById();
+	String getNameById(Long id);
 	
 }
