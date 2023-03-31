@@ -42,8 +42,6 @@ public class StuffController{
 			@RequestParam(name="url") String url,
 			@RequestParam(name="content") String content) {
 
-		int isnert = service.regStuff(title, place, numPeople, deadline, price, url, content);
-
 		return "redirect:list";
 	}
 	@GetMapping("list")
@@ -62,7 +60,13 @@ public class StuffController{
 	@GetMapping("detail")
 	public String detail(Long id, Model model) {
 		Stuff stuff = service.getById(id);
+		System.out.println(stuff.getCategoryId());
+		System.out.println("요기까지?");
 		String categoryName = categoryService.getNameById(stuff.getCategoryId());
+		System.out.println("요기는?");
+
+		System.out.println(stuff.getCategoryId());
+
 
 		model.addAttribute("stuff", stuff);
 		model.addAttribute("categoryName", categoryName);

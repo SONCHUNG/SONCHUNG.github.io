@@ -16,6 +16,7 @@
   	<result property="memberId" column="member_id"/>
   </resultMap> 
   <resultMap id="stuffViewResultMap" type="StuffView">
+  	<result property="id" column="stuff_id"/>
   	<result property="categoryId" column="category_id"/>
   	<result property="categoryName" column="category_name"/>
   	<result property="numPeople" column="num_people"/>
@@ -23,7 +24,7 @@
   	<result property="regDate" column="reg_date"/>
   </resultMap>
 
-  <select id="findbyId" resultMap="stuffResultMap">
+  <select id="findById" resultMap="stuffResultMap">
   	select *
   	from stuff
   	where id = #{id}

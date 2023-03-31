@@ -9,5 +9,5 @@ import com.modeul.web.entity.Category;
 @Mapper
 public interface CategoryRepository{
 	List<Category> findAll();
-	String getNameById(Long id);
+	Category findNameById(Long id);
 }

@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public String getNameById(Long id) {
 		// TODO Auto-generated method stub
-		return repository.getNameById(id);
+		return repository.findNameById(id).getName();
 	}
 	
 }
