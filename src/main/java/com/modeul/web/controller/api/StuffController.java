@@ -1,4 +1,4 @@
-package com.modeul.web.controller;
+package com.modeul.web.controller.api;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.modeul.web.entity.Category;
-import com.modeul.web.entity.Image;
 import com.modeul.web.entity.Stuff;
 import com.modeul.web.entity.StuffView;
 import com.modeul.web.service.CategoryService;
@@ -21,8 +19,8 @@ import com.modeul.web.service.StuffService;
 
 
 
-@Controller
-@RequestMapping("/member/stuff")
+@Controller("apiStuffController")
+@RequestMapping("stuffs")
 public class StuffController{
 	
 	@Autowired
@@ -34,7 +32,7 @@ public class StuffController{
 	public String stuffForm() {
 		return "member/stuff/reg";
 	}
-	@PostMapping("reg")
+	@PostMapping
 	public String regStuff(
 			@RequestParam(name="title") String title,
 			@RequestParam(name="place") String place,
@@ -42,14 +40,12 @@ public class StuffController{
 			@RequestParam(name="deadline") LocalDateTime deadline,
 			@RequestParam(name="price") String price,
 			@RequestParam(name="url") String url,
-			@RequestParam(name="content") String content,
-			MultipartFile imgs,
-			Image image
+			@RequestParam(name="content") String content
 			) {
 
 		return "redirect:list";
 	}
-	@GetMapping("list")
+	@GetMapping
 	public String list(
 		@RequestParam(name = "c", required = false) Integer categoryId,
 		Model model) {
@@ -65,13 +61,7 @@ public class StuffController{
 	@GetMapping("detail")
 	public String detail(Long id, Model model) {
 		Stuff stuff = service.getById(id);
-		System.out.println(stuff.getCategoryId());
-		System.out.println("요기까지?");
 		String categoryName = categoryService.getNameById(stuff.getCategoryId());
-		System.out.println("요기는?");
-
-		System.out.println(stuff.getCategoryId());
-
 
 		model.addAttribute("stuff", stuff);
 		model.addAttribute("categoryName", categoryName);

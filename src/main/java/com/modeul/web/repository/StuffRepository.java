@@ -14,4 +14,6 @@ public interface StuffRepository{
 	List<StuffView> findViewAll();
 	List<StuffView> findViewAll(Integer categoryId);
 	Stuff findById(Long id);
+	Stuff insert(Stuff stuff);
+	int imageUpload(String name, String path, Long stuffId);
 }
