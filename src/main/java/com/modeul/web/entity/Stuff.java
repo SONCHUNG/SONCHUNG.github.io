@@ -19,10 +19,12 @@ public class Stuff {
 	LocalDateTime regDate;
 	String numPeople;
 	String url;
+
 	LocalDateTime deadline;
+
 	String price;
 	String content;
 	Long memberId;
 	long categoryId;
-	List<Image> imageList;
+	// List<Image> imageList;
 }

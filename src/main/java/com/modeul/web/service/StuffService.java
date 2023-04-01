@@ -28,6 +28,6 @@ public interface StuffService{
 
 	Stuff getById(Long id);
 	
-	void regStuff(Stuff stuff);
+	void regStuff2(Stuff stuff);
 	
 }

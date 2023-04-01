@@ -59,7 +59,8 @@ public class StuffServiceImpl implements StuffService{
 		return repository.findById(id);
 	}
 	@Override
-	public void regStuff(Stuff stuff) {
+	public void regStuff2(Stuff stuff) {
+		repository.insert2(stuff);
 	}
 
 
