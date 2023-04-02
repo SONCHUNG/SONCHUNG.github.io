@@ -1,7 +1,6 @@
 package com.modeul.web.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import groovy.transform.builder.Builder;
 import lombok.AllArgsConstructor;

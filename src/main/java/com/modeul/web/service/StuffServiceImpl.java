@@ -60,6 +60,7 @@ public class StuffServiceImpl implements StuffService{
 	}
 	@Override
 	public void regStuff2(Stuff stuff) {
+		// TODO Auto-generated method stub
 		repository.insert2(stuff);
 	}
 

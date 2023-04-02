@@ -3,21 +3,22 @@ package com.modeul.web.controller.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.modeul.web.entity.Category;
+import com.modeul.web.entity.Image;
 import com.modeul.web.entity.Stuff;
 import com.modeul.web.entity.StuffView;
 import com.modeul.web.service.CategoryService;
+import com.modeul.web.service.ImageService;
 import com.modeul.web.service.StuffService;
-
-
 
 @RestController("apiStuffController")
 @RequestMapping("stuffs")
@@ -28,16 +29,83 @@ public class StuffController{
 	@Autowired
 	public CategoryService categoryService;
 
+	@Autowired
+	public ImageService imageService;
+
 	@GetMapping("reg")
 	public String stuffForm() {
 		return "member/stuff/reg";
 	}
 	@PostMapping
-	public String insert(@RequestBody Stuff stuff) {
-			service.regStuff2(stuff);
-		return "stuff insert";
+	public void insert(@RequestBody Stuff stuff, MultipartFile[] uploadfile) {
+		System.out.println("파일 이름 : " + uploadfile[0].getOriginalFilename());
+		System.out.println("파일 타입 : " + uploadfile[0].getContentType());
+		System.out.println("파일 크기 : " + uploadfile[0].getSize());
+
+		service.regStuff2(stuff);
 		// return "redirect:list";
 	}
+	@PostMapping("/uploadImg")
+	public void insertFile(MultipartFile[] uploadfile) {
+
+		// 이미지 정보 담는 객체
+		// List<Image> list = new ArrayList();
+		Image image = new Image();
+
+		for(int i = 0; i < uploadfile.length; i++){
+			// 이미지 정보 객체
+			image.setName(uploadfile[i].getOriginalFilename());
+			image.setStuffId((long)2);
+			System.out.println("파일 이름 : " + uploadfile[i].getOriginalFilename());
+			System.out.println("파일 타입 : " + uploadfile[i].getContentType());
+			System.out.println("파일 크기 : " + uploadfile[i].getSize());
+		}
+		imageService.insert(image);
+	}
+
+	@GetMapping
+	public List<StuffView> getList(
+		@RequestParam(name = "c", required = false) Integer categoryId) {
+		
+		// List<Category> categoryList = categoryService.getList();
+		List<StuffView> list = service.getViewList(categoryId);
+
+		// model.addAttribute("categoryList", categoryList);
+		// model.addAttribute("list", list);
+
+		// return "member/stuff/list";
+		return list;
+	}
+	@GetMapping("category")
+	public List<Category> getCategoryList(
+		@RequestParam(name = "c", required = false) Integer categoryId) {
+		
+		List<Category> categoryList = categoryService.getList();
+
+		return categoryList;
+	}
+	// @GetMapping("detail")
+	// public Stuff detail(@PathVariable("id") Long id) {
+
+	// 	Stuff stuff = service.getById(id);
+	// 	String categoryName = categoryService.getNameById(stuff.getCategoryId());
+
+	// 	return stuff;
+	// }
+	
+	
+	@GetMapping("{{id}}")
+	public Stuff detail(@PathVariable("id") Long id) {
+		
+		Stuff stuff = service.getById(id);
+		// String categoryName = categoryService.getNameById(stuff.getCategoryId());
+		
+		return stuff;
+	}
+	
+}
+
+	
 	// @PostMapping
 	// public String regStuff(
 	// 		@RequestParam(name="title") String title,
@@ -51,36 +119,3 @@ public class StuffController{
 
 	// 	return "redirect:list";
 	// }
-	@GetMapping
-	public List<StuffView> getList(
-		@RequestParam(name = "c", required = false) Integer categoryId, Model model) {
-		
-		// List<Category> categoryList = categoryService.getList();
-		List<StuffView> list = service.getViewList(categoryId);
-
-		// model.addAttribute("categoryList", categoryList);
-		// model.addAttribute("list", list);
-
-		// return "member/stuff/list";
-		return list;
-	}
-	@GetMapping("category")
-	public List<Category> getCategoryList(
-		@RequestParam(name = "c", required = false) Integer categoryId, Model model) {
-		
-		List<Category> categoryList = categoryService.getList();
-
-		// model.addAttribute("categoryList", categoryList);
-		return categoryList;
-	}
-	@GetMapping("detail")
-	public String detail(Long id, Model model) {
-		Stuff stuff = service.getById(id);
-		String categoryName = categoryService.getNameById(stuff.getCategoryId());
-
-		model.addAttribute("stuff", stuff);
-		model.addAttribute("categoryName", categoryName);
-
-		return "member/stuff/detail";
-	}
-}

@@ -76,7 +76,7 @@ Vue
 	beforeUnmount(){console.log("beforeUnmount")},
 	unmounted(){console.log("unmounted")}
 })
-.mount("#vue");
+.mount("#list-vue");
 
 
 // window.addEventListener("load", function(){

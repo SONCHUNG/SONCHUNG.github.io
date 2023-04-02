@@ -21,7 +21,7 @@
 
 <body>
     
-        <section id="vue"  class="canvas p-rel b-rad-2">
+        <section id="list-vue"  class="canvas p-rel b-rad-2">
             <header class="d-fl-al header-jc">
 
                 <select class="selectbox-set" onchange="if(this.value) location.href=(this.value);">
@@ -74,9 +74,10 @@
             
             <main>
 	            <div v-for="stuff in list">
-	            <!-- a 태그로 변경!! -->
-	                <a class="d-gr li-gr m-t-13px list-cl"
-	                href="./detail.html" >
+	            <!-- a 태그로 변경!!  --> 
+	                <a class="d-gr li-gr m-t-13px list-cl" :href="`./detail?id=${stuff.id}`"
+                        
+	                href="./detail">
 	                    <!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
 	                    <div class="li-pic b-rad-1">사진</div>
 	                    <div class="li-categ header-categ li-header-categ" 
@@ -85,7 +86,7 @@
 	                        찬하트
 	                    </div>
 	                    <div class="li-subj">{{stuff.title}}</div>
-	                    <div class="li-member" >2/{{stuff.numPeople}}</div>
+	                    <div class="li-member" >참여 가능 인원 : {{stuff.numPeople}}</div>
 	                    <div class="li-date">{{stuff.deadline}}</div>
 	                </a>				
 	                <div>

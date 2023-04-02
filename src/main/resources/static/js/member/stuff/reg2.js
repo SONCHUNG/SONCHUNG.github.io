@@ -1,59 +1,117 @@
-window.addEventListener("load", function(){
+Vue
+.createApp({
+    data(){
+        return{
+            test:"hello test",
+            isActive: false,
+            stuff:{
+                title:"제목",
+                place:"장소",
+                numPeople:2,
+                price:"가격",
+                url:"url",
+                content:"content",
+                deadline:"9999-99-99"
+            },
+            category:{
+                id:0,
+                name:"카테고리제목"
+            },
+            file: '',
+            fileObj:[]
+        }
 
-    // reg1에서 reg2로 페이지 이동 
-    const reg2 = document.querySelector('.reg2-form');
-    const reg1 = document.querySelector('.reg1-form');
-    const btnReg = document.querySelector('.btn-next');
-    const backArrow = document.querySelector('.reg2-back');
+    },
+    methods:{
+        testHandler(e){
+            console.log("testClick");
+        },
+        // 카테고리선택창 전환(reg1->reg2)
+        dnoneHandler(isActive){
+            this.isActive = !this.isActive;
+            console.log(this.isActive);
+        },
+        // 인원수 조절
+        numPeoplePlusHandler(stuff){
+            if(this.stuff.numPeople>=1 && this.stuff.numPeople<16)
+                this.stuff.numPeople++;
+        },
+        numPeopleMinusHandler(stuff){
+            if(this.stuff.numPeople>=2 && this.stuff.numPeople<=16)
+            this.stuff.numPeople--;
+        },
+        // POST 요청
+        regStuffHandler(e){
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
 
-    const resultElement = document.querySelector('#result');
-    const btnMinus = document.querySelector('.btn-minus');
-    const btnPlus = document.querySelector('.btn-plus');
+            var raw = JSON.stringify(this.stuff);
 
-    btnReg.addEventListener('click', () => {
-        // console.log("다음 출력");
-        reg1.classList.toggle('d-none');
-        reg2.classList.toggle('d-none');
-    });
+            var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+            };
 
-    backArrow.addEventListener('click', () => {
-        // console.log("뒤로가기 출력");
-        reg2.classList.toggle('d-none');
-        reg1.classList.toggle('d-none');
-    });
+            fetch("http://localhost:8080/stuffs", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        },
+        regImgHandler(e){
+            console.log("change!!!");
+            console.log(e.target.files);
+            this.file = e.target.files[0];
+            console.log("fileName : " + this.file.name);
+            console.log("fileSize : " + this.file.size);
+            console.log("fileType(MimeType) : " + this.file.type);
 
+            if(!this.fileCheck(this.file.name, this.file.size)){
+                return false;
+            }
+            alert("파일이 업로드 되었습니다.");
 
-    // 인원수 조절 JS 
-    // 현재 화면에 표시된 값
-    let number = resultElement.value;
+            var formdata = new FormData();
+            formdata.append("uploadfile", this.file)
+            // for(let i=0; i<this.file.length; i++){
+            //     formdata.append("uploadfile", this.file)
+            // }
+            
+            var requestOptions2 = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+            };
 
-    btnMinus.addEventListener('click', () => {
-        number = parseInt(number) - 1;
-        resultElement.value = number;
-    });
+            fetch("http://localhost:8080/stuffs/uploadImg", requestOptions2)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        },
+        fileCheck(fileName, fileSize){
+            let regex = new RegExp("(.*?)\.(jpg|png)$");
+            let maxSize = 10485760; //10MB
 
-    btnPlus.addEventListener('click', () => {
-        number = parseInt(number) + 1;
-        resultElement.value = number;
-    });
-    
-
-    // function count(type)  {
-    //     // 결과를 표시할 element
-    //     const resultElement = document.getElementById('result');
-    //     // 현재 화면에 표시된 값
-    //     let number = resultElement.innerText;
-    //     // 더하기/빼기
-    //     if(type === 'plus') {
-    //       number = parseInt(number) + 1;
-    //     }else if(type === 'minus')  {
-    //       number = parseInt(number) - 1;
-    //     }
-    //     // 결과 출력
-    //     resultElement.innerText = number;
-    //   }
-
-
-
-
-});
+            if(fileSize >= maxSize){
+                alert("파일 사이즈 초과");
+                return false;
+            }
+            if(!regex.test(fileName)){
+                alert("해당 종류의 파일은 업로드할 수 없습니다.");
+                return false;
+            }
+            
+            return true;
+        }
+    },
+    beforeCreate(){console.log("beforeCreate")},
+	created(){console.log("created")},
+	beforeMount(){console.log("beforeMount")},
+    mounted(){console.log("mounted");},
+	beforeUpdate(){console.log("beforeUpdate")},
+	updated(){console.log("updated")},
+	beforeUnmount(){console.log("beforeUnmount")},
+	unmounted(){console.log("unmounted")}
+})
+.mount("#reg-vue");

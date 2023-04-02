@@ -217,6 +217,9 @@
 .d-none{
     display: none;
 }
+.dnone{
+    display: none;
+}
 
 .d-b-none{
     border: none;
