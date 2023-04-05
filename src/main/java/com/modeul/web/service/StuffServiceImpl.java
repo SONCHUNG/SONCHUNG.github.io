@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modeul.web.entity.Image;
@@ -58,10 +59,25 @@ public class StuffServiceImpl implements StuffService{
 	public Stuff getById(Long id) {
 		return repository.findById(id);
 	}
+
+	@Transactional
 	@Override
 	public void regStuff2(Stuff stuff) {
-		// TODO Auto-generated method stub
+
+		if(stuff.getImageList() == null || stuff.getImageList().size() <= 0){
+			return;
+		}
+
+		stuff.getImageList().forEach(image->{
+				image.setStuffId(stuff.getId());
+				repository.imageUpload(image.getName(), image.getStuffId());
+		});
+
 		repository.insert2(stuff);
+	}
+	@Override
+	public List<Stuff> getById2(Long id) {
+		return repository.findById2(id);
 	}
 
 

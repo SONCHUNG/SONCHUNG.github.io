@@ -19,8 +19,6 @@ import com.modeul.web.entity.StuffView;
 import com.modeul.web.service.CategoryService;
 import com.modeul.web.service.StuffService;
 
-
-
 @Controller
 @RequestMapping("/member/stuff")
 public class StuffController{

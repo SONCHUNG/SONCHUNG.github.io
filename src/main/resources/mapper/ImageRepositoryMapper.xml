@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.modeul.web.repository.ImageRepository">
+<!-- mySQL에서 문자열은 ''로 묶여야 한다. 그래서 #{}으로 묶인다. -->
+  
+  <!-- resultMap이 필요한 이유는 Stuff 테이블에서 Java를 이용하면, categoryId으로 칼럼명이 쓰인다.
+  그 categoryId 칼럼은 한 번 더 Category 테이블로 건너가서 categoryName 칼럼을 이용하기 위해서는
+  resultMap을 사용하여 MySQL DB의 칼럼명으로 다시 매핑해줘야 한다. -->
+  <resultMap id="imageResultMap" type="Image">
+  	<result property="stuffId" column="stuff_id"/>
+  </resultMap> 
+
+  <select id="findById" resultMap="imageResultMap">
+  	select *
+  	from stuff
+  	where id = #{id}
+  </select>
+  
+  <!-- 이미지 등록 -->
+  <insert id="insert" parameterType="Image">
+		<!-- <selectKey resultType="int" keyProperty="stuffId" order="AFTER">
+  		
+  			SELECT LAST_INSERT_ID() FROM stuff
+  		
+		</selectKey> -->
+
+    insert into image(name, stuff_id)
+    values(#{name},#{stuffId})
+  </insert>
+  
+  
+</mapper>

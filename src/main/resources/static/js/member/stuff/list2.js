@@ -3,12 +3,9 @@ Vue
 	data(){
 		return{
             test:"hello test",
-            list:[
-
-            ],
-            categoryList:[
-
-            ],
+            list:[ ],
+            categoryList:[ ],
+            detailList:[ ],
             stuff:{
                 title:"제목",
                 place:"장소",
@@ -59,6 +56,18 @@ Vue
         },
         categoryClickHandler(e){
 
+        },
+        get(e){
+              fetch("{id}")
+                .then(response => {
+                   return response.json();
+                })
+                .then(detailList => {
+                    this.detailList = detailList;
+                    console.log(this.detailList);
+                })
+                .catch(error => 
+                    console.log('error', error));
         }
 
 
@@ -77,6 +86,7 @@ Vue
 	unmounted(){console.log("unmounted")}
 })
 .mount("#list-vue");
+
 
 
 // window.addEventListener("load", function(){

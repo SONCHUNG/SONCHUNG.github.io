@@ -30,6 +30,12 @@
   	where id = #{id}
   </select>
   
+  <select id="findById2" resultMap="stuffResultMap">
+  	select *
+  	from stuff
+  	where id = #{id}
+  </select>
+  
 
   <!-- VIEW 이용할 때, on 조건 중 id 뭐로 연결할 건지 다시 생각!
   VIEW 테이블 자체는 조건절이 없었다. -->

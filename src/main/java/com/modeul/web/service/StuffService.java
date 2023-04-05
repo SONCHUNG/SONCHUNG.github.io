@@ -27,6 +27,7 @@ public interface StuffService{
 	List<StuffView> getViewList(Integer categoryId);
 
 	Stuff getById(Long id);
+	List<Stuff> getById2(Long id);
 	
 	void regStuff2(Stuff stuff);
 	

@@ -11,7 +11,7 @@ Vue
                 price:"가격",
                 url:"url",
                 content:"content",
-                deadline:"9999-99-99"
+                deadline:"2023-11-10T11:22"
             },
             category:{
                 id:0,
@@ -54,12 +54,15 @@ Vue
             redirect: 'follow'
             };
 
-            fetch("http://localhost:8080/stuffs", requestOptions)
+            fetch("http://localhost:8080/stuffs/uploadImg", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
         },
         regImgHandler(e){
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "multipart/form-data");
+
             console.log("change!!!");
             console.log(e.target.files);
             this.file = e.target.files[0];
@@ -73,13 +76,14 @@ Vue
             alert("파일이 업로드 되었습니다.");
 
             var formdata = new FormData();
-            formdata.append("uploadfile", this.file)
+            formdata.append("imgs", this.file)
             // for(let i=0; i<this.file.length; i++){
             //     formdata.append("uploadfile", this.file)
             // }
-            
+
             var requestOptions2 = {
             method: 'POST',
+            headers: myHeaders,
             body: formdata,
             redirect: 'follow'
             };

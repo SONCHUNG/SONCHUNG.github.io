@@ -75,9 +75,8 @@
             <main>
 	            <div v-for="stuff in list">
 	            <!-- a 태그로 변경!!  --> 
-	                <a class="d-gr li-gr m-t-13px list-cl" :href="`./detail?id=${stuff.id}`"
-                        
-	                href="./detail">
+	                <!-- <a class="d-gr li-gr m-t-13px list-cl" :href="`./detail?id=${stuff.id}`" href="./detail"> -->
+	                <a class="d-gr li-gr m-t-13px list-cl" :href="`${stuff.id}`" href="./detail" @click.prevent="get" >
 	                    <!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
 	                    <div class="li-pic b-rad-1">사진</div>
 	                    <div class="li-categ header-categ li-header-categ" 

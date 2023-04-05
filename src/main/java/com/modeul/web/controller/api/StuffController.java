@@ -1,14 +1,18 @@
 package com.modeul.web.controller.api;
 
+import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +24,8 @@ import com.modeul.web.service.CategoryService;
 import com.modeul.web.service.ImageService;
 import com.modeul.web.service.StuffService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController("apiStuffController")
 @RequestMapping("stuffs")
 public class StuffController{
@@ -28,7 +34,6 @@ public class StuffController{
 	public StuffService service;
 	@Autowired
 	public CategoryService categoryService;
-
 	@Autowired
 	public ImageService imageService;
 
@@ -37,29 +42,60 @@ public class StuffController{
 		return "member/stuff/reg";
 	}
 	@PostMapping
-	public void insert(@RequestBody Stuff stuff, MultipartFile[] uploadfile) {
+	public void insert(@RequestBody Stuff stuff, @RequestParam MultipartFile[] uploadfile) {
 		System.out.println("파일 이름 : " + uploadfile[0].getOriginalFilename());
 		System.out.println("파일 타입 : " + uploadfile[0].getContentType());
 		System.out.println("파일 크기 : " + uploadfile[0].getSize());
-
+		
 		service.regStuff2(stuff);
 		// return "redirect:list";
 	}
-	@PostMapping("/uploadImg")
-	public void insertFile(MultipartFile[] uploadfile) {
+	@PostMapping(path = "/uploadImg")
+	public void insertFile(@RequestBody Stuff stuff,@RequestBody MultipartFile[] imgs) {
+
+		// 이미지 정보 담는 객체
+		List<Image> imageList = new ArrayList<Image>();
+		
+		for(int i = 0; i < imgs.length; i++){
+			
+			MultipartFile img = imgs[i];
+			
+			if(img.isEmpty())
+			continue;
+			
+			// 이미지 정보 객체
+			Image image = new Image();
+			image.setName(imgs[i].getOriginalFilename());
+			
+			// image.setStuffId((long)2);
+
+			System.out.println("파일 이름 : " + imgs[i].getOriginalFilename());
+			System.out.println("파일 타입 : " + imgs[i].getContentType());
+			System.out.println("파일 크기 : " + imgs[i].getSize());
+			imageList.add(image);
+		}
+		System.out.println(stuff);
+		
+		// service.regStuff2(stuff);
+
+		// imageService.insert(image);
+	}
+	@PostMapping("/uploadImg2")
+	public void insertFile(MultipartFile imgs) {
 
 		// 이미지 정보 담는 객체
 		// List<Image> list = new ArrayList();
 		Image image = new Image();
-
-		for(int i = 0; i < uploadfile.length; i++){
-			// 이미지 정보 객체
-			image.setName(uploadfile[i].getOriginalFilename());
-			image.setStuffId((long)2);
-			System.out.println("파일 이름 : " + uploadfile[i].getOriginalFilename());
-			System.out.println("파일 타입 : " + uploadfile[i].getContentType());
-			System.out.println("파일 크기 : " + uploadfile[i].getSize());
-		}
+		image.setName(imgs.getOriginalFilename());
+		image.setStuffId((long)2);
+		// for(int i = 0; i < imgs.length; i++){
+		// 	// 이미지 정보 객체
+		// 	image.setName(imgs[i].getOriginalFilename());
+		// 	image.setStuffId((long)2);
+		// 	System.out.println("파일 이름 : " + imgs[i].getOriginalFilename());
+		// 	System.out.println("파일 타입 : " + imgs[i].getContentType());
+		// 	System.out.println("파일 크기 : " + imgs[i].getSize());
+		// }
 		imageService.insert(image);
 	}
 
@@ -92,15 +128,14 @@ public class StuffController{
 
 	// 	return stuff;
 	// }
-	
-	
-	@GetMapping("{{id}}")
-	public Stuff detail(@PathVariable("id") Long id) {
+
+	@GetMapping("{id}")
+	public List<Stuff> detail(@PathVariable("id") Long id) {
 		
-		Stuff stuff = service.getById(id);
+		List<Stuff> stufflist = service.getById2(id);
 		// String categoryName = categoryService.getNameById(stuff.getCategoryId());
-		
-		return stuff;
+		System.out.println(stufflist);
+		return stufflist;
 	}
 	
 }
