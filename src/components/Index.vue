@@ -33,3 +33,8 @@
         </main>
     </div>
 </template>
+
+
+<style scoped>
+    @import "/css/component/component-index.css";
+</style>

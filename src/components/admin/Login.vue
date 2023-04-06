@@ -27,3 +27,8 @@
 
     </main>    
 </template>
+
+<style scoped>
+    @import "/css/component/admin/component-admin.css";
+    @import "/css/component/admin/admin-login.css";
+</style>

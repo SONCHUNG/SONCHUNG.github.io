@@ -88,3 +88,7 @@
     </div>
 
 </template>
+
+<style scoped>
+    @import "/css/component/member/stuff/component-detail.css";
+</style>

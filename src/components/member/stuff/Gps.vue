@@ -28,3 +28,7 @@
 
     </section>
 </template>
+
+<style scoped>
+    @import "/css/component/member/stuff/component-gps.css";
+</style>

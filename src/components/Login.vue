@@ -49,3 +49,8 @@
     </div>
 
 </template>
+
+
+<style scoped>
+    @import "/css/component/component-login.css";
+</style>

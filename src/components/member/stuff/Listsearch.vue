@@ -78,3 +78,8 @@
 
     </section>
 </template>
+
+
+<style scoped>
+    @import "/css/component/member/stuff/component-list-search.css";
+</style>

@@ -224,3 +224,8 @@
         </section>
     </section>
 </template>
+
+
+<style scoped>
+    @import "/css/component/member/stuff/component-reg.css";
+</style>

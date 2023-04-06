@@ -79,3 +79,8 @@
     </div>
 
 </template>
+
+
+<style scoped>
+    @import "/css/component/component-sign-up.css";
+</style>

@@ -2,7 +2,6 @@
     <main class="list-admin-main d-fl fl-dir-col al-c">
         <h1 class="d-none">카테고리 관리 목록</h1>
 
-
         <!-- <div class=""> -->
         <div class="categoryplus d-fl jf-fe m-t-62px m-r-800px">
             <button class="btn-next">카테고리 추가</button>
@@ -74,3 +73,7 @@
     </main>
 </template>
 
+<style scoped>
+    @import "/css/component/admin/component-admin.css";
+    @import "/css/component/admin/category/component-category-list.css";
+</style>

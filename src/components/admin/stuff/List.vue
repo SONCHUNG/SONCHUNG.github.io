@@ -97,3 +97,7 @@
     </main>    
 </template>
 
+<style scoped>
+    @import "/css/component/admin/component-admin.css";
+    @import "/css/component/admin/stuff/component-stuff-list.css";
+</style>

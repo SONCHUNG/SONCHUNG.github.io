@@ -115,3 +115,8 @@
             </nav>
         </section>
 </template>
+
+
+<style scoped>
+    @import "/css/component/member/stuff/component-list.css";
+</style>

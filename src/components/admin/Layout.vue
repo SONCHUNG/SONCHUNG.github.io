@@ -15,9 +15,11 @@
 </script>
 
 <template>
-    <Header/>
-    <!-- --------------------------------------- -->
-    <Aside/>
-    <!-- --------------------------------------- -->
-    <router-view></router-view>
+    <section class="canvas-2 d-fl fl-dir-col">
+        <Header/>
+        <!-- --------------------------------------- -->
+        <Aside/>
+        <!-- --------------------------------------- -->
+        <router-view></router-view>
+    </section>
 </template>

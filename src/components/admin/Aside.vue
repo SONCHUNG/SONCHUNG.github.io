@@ -61,3 +61,7 @@
     </aside>
     
 </template>
+
+<style scoped>
+    @import "/css/component/admin/component-admin.css";
+</style>
