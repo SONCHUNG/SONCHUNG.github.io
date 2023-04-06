@@ -1,4 +1,10 @@
 <template>
+
+    <header>
+        <div class="header-container">
+            <h1 class="logo-main logo-moduel m-t-138px">mo_deul</h1>
+        </div>
+    </header>
     <main>
         <div class="input-container">
             

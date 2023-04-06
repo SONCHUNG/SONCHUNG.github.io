@@ -74,6 +74,6 @@
 </template>
 
 <style scoped>
-    @import "/css/component/admin/component-admin.css";
     @import "/css/component/admin/category/component-category-list.css";
+    @import "/css/component/admin/component-admin.css";
 </style>
