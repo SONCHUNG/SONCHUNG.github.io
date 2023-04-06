@@ -20,7 +20,7 @@
         <div class="sign-up-container">
         
 
-            <form action="login.html" method="post" >
+            <form>
 
             <div class="input-field-2">
                 <label for="uid" class="uid-label">
@@ -32,15 +32,16 @@
             <div class="input-field-2 m-t-1">
                 <label for="password" class="password-label">
                 <span class="d-none">pw</span>
-                <input type="text" id="password" name="password" class="input-text-2" placeholder="비밀번호를 입력해주세요.">
+                <input type="text" id="password" name="password" class="input-text-2" placeholder="비밀번호를 입력해주세요." v-model="password">
                 </label>
             </div>
 
             <div class="input-field-2 m-t-1">
                 <label for="password-confirm" class="password-confirm-label">
                 <span class="d-none">pw-confirm</span>
-                <input type="text" id="password-confirm" name="password" class="input-text-2" placeholder="비밀번호를 다시 입력해주세요.">
+                <input type="text" id="password-confirm" name="password-confirm" class="input-text-2" placeholder="비밀번호를 다시 입력해주세요." v-model="passwordConfirm">
                 </label>
+                <div v-if="passwordError" style="color:red;">{{passwordError}}</div>
             </div>
 
             <div class="input-field-2 m-t-1">
@@ -67,7 +68,7 @@
             </div>
                 
                 <div class="d-fl-jf m-t-69px">
-                <input class="btn-3" type="submit" value="가입하기">
+                <input class="btn-3" type="submit" value="가입하기" @click.prevent="submit">
                 </div>
             </form>
         </div>
@@ -84,3 +85,50 @@
 <style scoped>
     @import "/css/component/component-sign-up.css";
 </style>
+
+
+<script>
+export default {
+    data() {
+        return {
+            password:"",
+            passwordConfirm:"",
+            passwordError:""
+        }
+    },
+    methods: {
+        async submit(){
+            console.log("dfgfdg");
+            this.passwordError = "";
+
+            if (!this.password){
+                this.passwordError="비밀번호를 입력해주세요";
+            } else if (this.password !== this.passwordConfirm){
+                this.passwordError="비밀번호가 일치하지 않습니다. 다시 입력해주세요";
+            } else if (!this.isValidPassword(this.password)){
+                this.passwordError="비밀번호가 올바르지 않습니다. 다시 입력해주세요";
+            }
+        },
+
+        isValidPassword(password){
+
+            // 비밀번호 8자 이상 입력하기!
+            if(password.length < 8){
+                return false;
+            }
+
+            // '/[a-zA-z]/'를 정규식 이용해서 글자 규칙 테스트
+            const hasLetter = /[a-zA-z]/.test(password);
+            const hasNumber = /\d/.test(password);
+
+            // 검증 끝나면 유효한 비밀번호 사용하기!
+            if(!hasLetter || !hasNumber){
+                return true;
+            }
+
+        }
+
+        
+    },
+}
+</script>
