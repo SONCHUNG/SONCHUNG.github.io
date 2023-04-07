@@ -4,7 +4,7 @@
             <section>
                 <span class="d-none">헤더</span>
                 <div>
-                    <a href="./login.html" class="icon icon-back">Back</a>
+                    <router-link to="/login" class="icon icon-back">Back</router-link>
                 </div>
                 <div class="d-fl-jf">
                     <h1 class="logo-main logo-moduel logo-size1 m-t-44px">mo_deul</h1>
@@ -19,27 +19,27 @@
       <!-- flex 시작 -->
         <div class="sign-up-container">
         
-
-            <form>
+            <!-- 여러 개의 이벤트 요청하는 방법 -->
+            <form @submit.prevent="[addMember(), submit()]">
 
             <div class="input-field-2">
                 <label for="uid" class="uid-label">
                 <span class="d-none">uid</span>
-                <input type="text" id="uid" name="uid" class="input-text-2" placeholder="아이디를 입력해주세요.">
+                <input type="text" id="uid" name="uid" class="input-text-2" placeholder="아이디를 입력해주세요." v-model="member.uid">
                 </label>
             </div>
 
             <div class="input-field-2 m-t-1">
                 <label for="password" class="password-label">
                 <span class="d-none">pw</span>
-                <input type="text" id="password" name="password" class="input-text-2" placeholder="비밀번호를 입력해주세요." v-model="password">
+                <input type="text" id="password" name="password" class="input-text-2" placeholder="비밀번호를 입력해주세요." v-model="member.pwd">
                 </label>
             </div>
 
             <div class="input-field-2 m-t-1">
                 <label for="password-confirm" class="password-confirm-label">
                 <span class="d-none">pw-confirm</span>
-                <input type="text" id="password-confirm" name="password-confirm" class="input-text-2" placeholder="비밀번호를 다시 입력해주세요." v-model="passwordConfirm">
+                <input type="text" id="password-confirm" name="password-confirm" class="input-text-2" placeholder="비밀번호를 다시 입력해주세요." v-model="pwdConfirm">
                 </label>
                 <div v-if="passwordError" style="color:red;">{{passwordError}}</div>
             </div>
@@ -47,14 +47,21 @@
             <div class="input-field-2 m-t-1">
                 <label for="name" class="name-label">
                 <span class="d-none">name</span>
-                <input type="text" id="name" name="name" class="input-text-2" placeholder="이름을 입력해주세요.">
+                <input type="text" id="name" name="name" class="input-text-2" placeholder="이름을 입력해주세요." v-model="member.name">
                 </label>
             </div>
+
+            <div class="input-field-2 m-t-1">
+            <label for="name" class="name-label">
+              <span class="d-none">nickname</span>
+            <input type="text" id="nickname" name="nickname" class="input-text-2" placeholder="닉네임을 입력해주세요." v-model="member.nickname">
+            </label>
+          </div>
     
             <div class="input-field-2 m-t-1">
                 <label for="email" class="email-label">
                 <span class="d-none">email</span>
-                <input type="text" id="email" name="email" class="input-text-2" placeholder="이메일을 입력해주세요.">
+                <input type="text" id="email" name="email" class="input-text-2" placeholder="이메일을 입력해주세요." v-model="member.email">
                 <input class="btn-post" id="btn-post" type="button" value="전송">
                 </label>
             </div>
@@ -67,8 +74,8 @@
                 </label>
             </div>
                 
-                <div class="d-fl-jf m-t-69px">
-                <input class="btn-3" type="submit" value="가입하기" @click.prevent="submit">
+                <div class="d-fl-jf m-t-69px">  <!-- @click.prevent="submit" -->
+                <input class="btn-3" type="submit" value="가입하기" >
                 </div>
             </form>
         </div>
@@ -82,53 +89,82 @@
 </template>
 
 
-<style scoped>
-    @import "/css/component/component-sign-up.css";
-</style>
-
-
 <script>
 export default {
     data() {
         return {
-            password:"",
-            passwordConfirm:"",
+            member:{
+                uid:'sdfdsf',
+                pwd:'kasd12312',
+                name:'라플라',
+                nickname:'요플레',
+                email:'sdfi213@google.com',
+                
+            },
+            pwdConfirm:"",
             passwordError:""
         }
     },
     methods: {
+
+        async addMember(){
+            console.log("addMember");
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify(this.member);
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:8080/members", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        },
+
         async submit(){
-            console.log("dfgfdg");
+            console.log("submit");
             this.passwordError = "";
 
-            if (!this.password){
+            if (!this.member.pwd){
                 this.passwordError="비밀번호를 입력해주세요";
-            } else if (this.password !== this.passwordConfirm){
+            } else if (this.member.pwd !== this.pwdConfirm){
                 this.passwordError="비밀번호가 일치하지 않습니다. 다시 입력해주세요";
-            } else if (!this.isValidPassword(this.password)){
+            } else if (!this.isValidPassword(this.member.pwd)){
                 this.passwordError="비밀번호가 올바르지 않습니다. 다시 입력해주세요";
             }
         },
 
-        isValidPassword(password){
+        // isValidPassword(this.member.pwd != null){
 
-            // 비밀번호 8자 이상 입력하기!
-            if(password.length < 8){
-                return false;
-            }
+        //     // 비밀번호 8자 이상 입력하기!
+        //     if(this.member.pwd.length < 8){
+        //         return false;
+        //     }
 
-            // '/[a-zA-z]/'를 정규식 이용해서 글자 규칙 테스트
-            const hasLetter = /[a-zA-z]/.test(password);
-            const hasNumber = /\d/.test(password);
+        //     // '/[a-zA-z]/'를 정규식 이용해서 글자 규칙 테스트
+        //     const hasLetter = /[a-zA-z]/.test(this.member.pwd);
+        //     const hasNumber = /\d/.test(this.member.pwd);
 
-            // 검증 끝나면 유효한 비밀번호 사용하기!
-            if(!hasLetter || !hasNumber){
-                return true;
-            }
+        //     // 검증 끝나면 유효한 비밀번호 사용하기!
+        //     if(!hasLetter || !hasNumber){
+        //         return true;
+        //     }
 
-        }
+        // }
 
         
     },
 }
 </script>
+
+
+<style scoped>
+    @import "/css/component/component.css";
+    @import "/css/component/component-sign-up.css";
+</style>

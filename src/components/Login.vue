@@ -10,7 +10,7 @@
       <main>
             <div class="input-container">
                 
-                <form action="./member/stuff/list.html" method="get">
+                <form>
 
                     <div class="input-field-1">
                         <label for="uid" class="uid-label">
@@ -40,7 +40,7 @@
                 </div>
             
                 <div class="m-t-68px">
-                    <a class="signup-text" href="./sign-up.html">회원가입</a>
+                    <router-link class="signup-text" to="/signup">회원가입</router-link>
                 </div>
             </div>
 
@@ -52,5 +52,6 @@
 
 
 <style scoped>
+    @import "/css/component/component.css";
     @import "/css/component/component-login.css";
 </style>

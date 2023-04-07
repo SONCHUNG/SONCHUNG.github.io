@@ -1,7 +1,7 @@
 <template>
     <section class="canvas">
         <header>
-            <a class="icon icon-back" href="../stuff/list.html">뒤로가기</a>
+            <router-link to="/member/stuff/list" class="icon icon-back">뒤로가기</router-link>
         </header>
 
         <main>

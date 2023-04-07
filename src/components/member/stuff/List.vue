@@ -5,7 +5,7 @@
                 <select class="selectbox-set" onchange="if(this.value) location.href=(this.value);">
                     <option value="">신수동</option>
                     <option value="">신설동</option>
-                    <option value="gps.html">GPS설정</option>
+                    <option value="/member/stuff/gps">GPS설정</option>
                 </select>
 
                 <div>
@@ -24,10 +24,10 @@
                             </div>
                             <div class="side-menu">
                                 <div></div>
-                                <span class="sidebar-padding" onclick="location.href='list.html'">홈</span>
-                                <span class="sidebar-padding" onclick="location.href='list-search.html'">검색하기</span>
-                                <span class="sidebar-padding" onclick="location.href='reg.html'">글 등록하기</span>
-                                <span class="sidebar-padding" onclick="location.href='../participation/list.html'">채팅하기</span>
+                                <span class="sidebar-padding"><router-link to="/member/stuff/list">홈</router-link></span>
+                                <span class="sidebar-padding"><router-link to="/member/stuff/listsearch">검색하기</router-link></span>
+                                <span class="sidebar-padding"><router-link to="/member/stuff/reg">글 등록하기</router-link></span>
+                                <span class="sidebar-padding"><router-link to="/member/participation/list">채팅하기</router-link></span>
                             </div>
                         </div>
                     </a>
@@ -98,7 +98,7 @@
 
             <nav class="navi-bar d-fl-jf" style="display: none;">
                 <div>
-                    <a class="icon icon-home m-notop" href="./list.html">home</a>
+                    <router-link class="icon icon-home m-notop" to="./list">home</router-link>
                 </div>
                 <div>
                     <a class="icon icon-search m-notop" href="./list-search.html">search</a>
