@@ -3,7 +3,7 @@
 
         <header class="d-fl">
             <div>
-                <a href="./list.html" class="icon icon-back">뒤로가기</a>
+                <router-link to="/member/stuff/list" class="icon icon-back">뒤로가기</router-link>
             </div>
             <div class="hd-title-box">
                 <h1 class="hd-title">우리 동네 설정</h1>

@@ -98,6 +98,7 @@
 
 
 <style scoped>
+    @import "/css/component/component.css";
     @import "/css/component/admin/component-admin.css";
     @import "/css/component/admin/member/component-member-list.css";
 </style>

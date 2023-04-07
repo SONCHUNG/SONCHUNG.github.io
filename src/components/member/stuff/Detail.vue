@@ -2,7 +2,7 @@
         <!-- detail : flex-container -->
         <div class="detail">
         <header>
-            <a class="icon icon-back" onclick="location.href='list.html'">뒤로가기</a>
+            <router-link to="/member/stuff/list" class="icon icon-back">뒤로가기</router-link>
         </header>
 
         <!-- detail - item1  -->

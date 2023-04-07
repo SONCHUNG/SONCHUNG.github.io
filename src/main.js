@@ -6,6 +6,7 @@ import Layout from './components/Layout.vue';
 import Index from './components/Index.vue';
 import Signup from './components/Signup.vue';
 import Login from './components/Login.vue';
+
 import MemberLayout from './components/member/Layout.vue';    // 그냥 Layout이라고 또 쓸 수도 있다?
 import List from './components/member/stuff/List.vue';
 import Detail from './components/member/stuff/Detail.vue';
@@ -13,8 +14,11 @@ import Reg from './components/member/stuff/Reg.vue';
 import Listsearch from './components/member/stuff/ListSearch.vue';
 import Gps from './components/member/stuff/Gps.vue';
 import ParticipationList from './components/member/participation/List.vue';
+
 import AdminLayout from './components/admin/Layout.vue';
 import AdminLogin from './components/admin/Login.vue';
+import AdminIndex from './components/admin/Index.vue';
+
 import MemberList from './components/admin/member/List.vue';
 import StuffList from './components/admin/stuff/List.vue';
 import CategoryList from './components/admin/category/List.vue';
@@ -36,6 +40,7 @@ const routes = [
     ] },
     { path: '/admin', component: AdminLayout, children:[
         {path: 'login', component: AdminLogin},
+        {path: 'index', component: AdminIndex},
         {path: 'member/list', component: MemberList},
         {path: 'stuff/list', component: StuffList},
         {path: 'category/list', component: CategoryList},

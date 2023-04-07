@@ -26,7 +26,7 @@
             <div class="link-container">
                 <h1 class="d-none">시작</h1>
                 <div class="btn-1">
-                    <a class="start-text" href="./login.html">START</a>
+                    <router-link class="start-text" to="/login">START</router-link>
                 </div>
             </div>
             <!-- flex end -->
@@ -36,5 +36,6 @@
 
 
 <style scoped>
+    @import "/css/component/component.css";
     @import "/css/component/component-index.css";
 </style>

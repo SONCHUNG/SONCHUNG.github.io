@@ -1,6 +1,6 @@
 <template>
-        <!-- =================== reg1 ======================= -->
-        <section class="reg1-form">
+    <!-- =================== reg1 ======================= -->
+    <section class="reg1-form" :class="{'d-none':isNext}">
         <h1 class="d-none">reg1</h1>
 
         <section class="canvas-1 d-fl fl-dir-col">
@@ -8,7 +8,7 @@
             <header class="d-fl">
                 
                 <div>
-                    <a href="./list.html" class="icon icon-back">뒤로가기</a>
+                    <router-link to="/member/stuff/list" class="icon icon-back">뒤로가기</router-link>
                 </div>
                 
                 <div class="hd-title-box">
@@ -28,15 +28,15 @@
                         <li><button class="select-box categ-eff" name="supermarket">대형마트 대량 물품</button></li>
                         <li><button class="select-box categ-eff" name="delivery_food">딜리버리 푸드</button></li>
                     </ul>
-                    <button class="btn-next m-t-button">다음</button>
+                    <button class="btn-next m-t-button" @click.prevent="nextRegPage">다음</button>
                 </div>
             </main>
     
         </section>
-  </section>
+    </section>
 
     <!-- =================== reg2 ======================= -->
-    <section class="reg2-form d-none">
+    <section class="reg2-form" :class="{'d-none':isNext===false}">
         <h1 class="d-none">reg2</h1>
 
         <section class="canvas-1 d-fl fl-dir-col">
@@ -125,18 +125,18 @@
                         }
                         </script> -->
                         
-                 <div id="btn-date" class="select-box d-fl jf-sb">
-                    <label for="datetime-local" class="input-field-txt">마감시간</label>
-                        <input
-                            class="date-pic"
-                            type="datetime-local"
-                            data-placeholder="날짜를 선택해주세요."
-                            required
-                            aria-required="true" 
-                            value={startDateValue}
-                            className={styles.selectDay}
-                            >
-                            <!-- onChange={StartDateValueHandler} -->
+                    <div id="btn-date" class="select-box d-fl jf-sb">
+                        <label for="datetime-local" class="input-field-txt">마감시간</label>
+                            <input
+                                class="date-pic"
+                                type="datetime-local"
+                                data-placeholder="날짜를 선택해주세요."
+                                required
+                                aria-required="true" 
+                                value={startDateValue}
+                                className={styles.selectDay}
+                                >
+                                <!-- onChange={StartDateValueHandler} -->
                     </div>
 
 
@@ -226,20 +226,24 @@
 </template>
 
 
-<style scoped>
-    @import "/css/component/member/stuff/component-reg.css";
-</style>
 
 <script>
     export default {
         data() {
             return {
+                isNext:false
                 
             }
         },
         methods: {
-            
+            /* reg1-> reg2 페이지 이동 */
+            nextRegPage(){
+                this.isNext = !this.isNext;
+            }
         },
     }
 </script>
 
+<style scoped>
+    @import "/css/component/member/stuff/component-reg.css";
+</style>
