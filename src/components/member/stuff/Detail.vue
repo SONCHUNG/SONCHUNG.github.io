@@ -1,8 +1,35 @@
+
+<script>
+
+export default {
+    data() {
+        return {
+            stuff:{}
+        }
+    },
+    mounted() {
+        fetch(`http://localhost:8080/member/stuffs/${this.$route.params.id}`)
+            .then(response => response.json())
+            .then(stuff => this.stuff = stuff)
+            .catch(error => console.log("error", error));
+    },
+    updated() {
+        console.log(this.stuff);
+    },
+    
+}
+
+</script>
+
+<style scoped>
+
+</style>
+
 <template>
         <!-- detail : flex-container -->
         <div class="detail">
         <header>
-            <router-link to="/member/stuff/list" class="icon icon-back">뒤로가기</router-link>
+            <router-link router-link to="list" class="icon icon-back">뒤로가기</router-link>
         </header>
 
         <!-- detail - item1  -->
@@ -30,9 +57,9 @@
                 <section class="canvas detail-heading">
                     <h1 class="d-none">heading</h1>
                     <div class="detail-category">대형마트 대량 물품</div>
-                    <p class="detail-heading-title">금요일에 같이 치킨 드실 분?</p>
+                    <p class="detail-heading-title">{{stuff.title}}</p>
                     <div class="d-fl">
-                        <div class="detail-price">22,000원</div>
+                        <div class="detail-price">{{stuff.price}}</div>
                         <div class="detail-status">모집중</div>
                         <div class="detail-heart" >찜</div>
                         <div class="icon-heart">하트</div>
@@ -42,28 +69,17 @@
                 <section class="canvas detail-info">
                     <h1 class="d-none">info</h1>
                     <div>•인원</div>
-                    <div>2 / 5</div>
+                    <div>2 / {{stuff.numPeople}}</div>
                     <div>•기한</div>
-                    <div>2월 10일 13:00</div>
+                    <div>{{stuff.deadline}}</div>
                     <div>•장소</div>
-                    <div>땡땡아파트 정문</div>
+                    <div>{{stuff.place}}</div>
                 </section>
                 <!-- detail-writing : detail-main - item4 -->
                 <section class="canvas detail-writing">
                     <h1 class="d-none">writing</h1>
                     <p class="detail-paragraph"> 
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
-                        hi<br>
+                       {{stuff.content}}
                     </p>   
                 </section>
             </div>

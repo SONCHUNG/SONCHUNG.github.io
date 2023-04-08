@@ -26,7 +26,7 @@
             <div class="link-container">
                 <h1 class="d-none">시작</h1>
                 <div class="btn-1">
-                    <router-link class="start-text" to="/login">START</router-link>
+                    <router-link to="/login" class="start-text" >START</router-link>
                 </div>
             </div>
             <!-- flex end -->
