@@ -28,7 +28,7 @@
                         <li><button class="select-box categ-eff" name="supermarket">대형마트 대량 물품</button></li>
                         <li><button class="select-box categ-eff" name="delivery_food">딜리버리 푸드</button></li>
                     </ul>
-                    <button class="btn-next m-t-button" @click.prevent="nextRegPage">다음</button>
+                    <button class="btn-next m-t-button" @click.prevent="dnoneHandler">다음</button>
                 </div>
             </main>
     
@@ -42,13 +42,12 @@
         <section class="canvas-1 d-fl fl-dir-col">
 
             <h1 class="d-none">reg2</h1>
-            <!-- header에 id를 부여해줄 것 - id는 html 짠사람이 부여해주기 때문이다! 이거로 css 경로 부여! -->
         
             <!-- =================== reg2 : header ===================== -->
             <header class="">
                 
                 <div class="reg2-back">
-                    <a class="icon icon-back">뒤로가기</a>
+                    <a class="icon icon-back" @click.prevent="dnoneHandler">뒤로가기</a>
                 </div>
                 
                 <div class="hd-title-box">
@@ -58,16 +57,13 @@
     
             <!-- =================== reg2 : main ===================== -->
             <main class="d-fl-jf m-b">
-                
-                <!-- form method post로 수정하기! -->
-                <form action="./list.html" method="get" enctype="multipart/form-data">
-        
+
+                <form enctype="multipart/form-data">
                     <div>
                         <input type="submit" class="reg2-post" value="올리기">
                     </div>
                     
                     <div class="file-box">
-                        <!-- 파일업로드 버튼 만드는 법 -->
                         <label for="file">
                             <div class="btn-file">파일업로드</div>
                             <div class="btn-uploaded-files">파일업로드된 파일들1</div>
@@ -78,15 +74,13 @@
                     </div>
 
                     <!-- 기존 카테고리 -->
-                    <select class="category-box" name="category_list">
-                    	
-                    	<!-- 타임리프 each 이용 --> 
-                        <option class="" value="merchandise" name="merchandise">일반상품</option>
+                    <select class="category-box" name="categoryList">
+                        <option v-for="c in categoryList" :value="c.id" class="" name="categoryId" v-text="c.name"></option>
+                        <!-- <option class="" value="merchandise" name="merchandise">일반상품</option>
                         <option class="" value="supermarket" name="supermarket">대형마트 대량 물품</option>
-                        <option class="" value="delivery_food" name="delivery_food">딜리버리 푸드</option>
+                        <option class="" value="delivery_food" name="delivery_food">딜리버리 푸드</option> -->
                     </select>
-
-                    <!-- 가로 스크롤 수정하기 -->
+                    
                     <div class="select-box">
                         <label for="title" class="input-field-txt">제목</label>
                         <input type="text" class="input-field" id="title" name="title">
@@ -95,15 +89,15 @@
                     
                     <!-- 인원수 조절 -->
                     <div class="select-box2 d-fl">
-                        <!--  label 태그 for="people-count" 적으면 온클릭 오류 발생함. -->
                         <label for="" class="input-field-txt">인원</label> 
                             <div class="people-count-box">
                                 <input class="btn-minus" id="people-count"
-                                    type="button" onclick='count("minus")' value="">
-                                <input type="text" class="people-count-num" name="numPeople" id="result" value=2>
+                                    type="button" value="" @click.prevent="numPeopleMinusHandler">
+
+                                <input type="text" class="people-count-num" name="numPeople" id="result" v-model="stuff.numPeople">
                                 
                                 <input class="btn-plus" id="people-count"
-                                    type="button" onclick='count("plus")' value="">
+                                    type="button" value="" @click.prevent="numPeoplePlusHandler">
                             </div>
                     </div>
                     
@@ -147,8 +141,6 @@
 
                     <!-- required 속성: 해당 필드가 기재되었을 때만 submit 가능. -->
                     
-                    
-
 
                     <!-- 복구용 코드(인원수) -->
                     <!-- <div class="select-box">
@@ -201,8 +193,6 @@
                           }
                         });
                     </script> -->
-
-        
                            
                     <div class="select-box">
                         <label for="place" class="input-field-txt">장소</label>
@@ -231,16 +221,55 @@
     export default {
         data() {
             return {
-                isNext:false
+                isNext:false,
+                stuff:{
+                    title: "아메리카노",
+                    place: "이촌동",
+                    numPeople: "2",
+                    deadline: "",
+                    price: "2000",
+                    url: "www.naver.com",
+                    content: "5000",
+                    imageList: [
+                    {
+                        "id": 3,
+                        "name": "24324324",
+                        "stuffId": 3
+                    }
+                    ]
+                }
                 
             }
         },
         methods: {
-            /* reg1-> reg2 페이지 이동 */
-            nextRegPage(){
+            /* reg1 <-> reg2 이동 이벤트 */
+            dnoneHandler(){
                 this.isNext = !this.isNext;
+            },
+            /* 인원 수 증감 이벤트 */
+            numPeoplePlusHandler(stuff){
+		    if(this.stuff.numPeople>=1 && this.stuff.numPeople<16)
+		        this.stuff.numPeople++;
+            },
+            numPeopleMinusHandler(stuff){
+                if(this.stuff.numPeople>=2 && this.stuff.numPeople<=16)
+                this.stuff.numPeople--;
+            },
+            loadCategory(){
+                var requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+                
+                fetch("http://localhost:8080/member/stuffs/categories", requestOptions)
+                    .then(response => response.json())
+                    .then(categoryList => {
+                    console.log(categoryList);
+                    this.categoryList = categoryList;
+                    })
+                    .catch(error => console.log('error', error));
             }
-        },
+        }
     }
 </script>
 
