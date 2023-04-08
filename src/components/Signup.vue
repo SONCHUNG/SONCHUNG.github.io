@@ -20,12 +20,12 @@
         <div class="sign-up-container">
         
             <!-- 여러 개의 이벤트 요청하는 방법 -->
-            <form @submit.prevent="[submit()]">
+            <form @submit.prevent="[addMember(), submit()]">
 
             <div class="input-field-2">
                 <label for="uid" class="uid-label">
                 <span class="d-none">uid</span>
-                <input type="text" id="uid" name="uid" class="input-text-2" placeholder="아이디를 입력해주세요.">
+                <input type="text" id="uid" name="uid" class="input-text-2" placeholder="아이디를 입력해주세요." v-model="member.uid">
                 </label>
             </div>
 
@@ -47,21 +47,21 @@
             <div class="input-field-2 m-t-1">
                 <label for="name" class="name-label">
                 <span class="d-none">name</span>
-                <input type="text" id="name" name="name" class="input-text-2" placeholder="이름을 입력해주세요.">
+                <input type="text" id="name" name="name" class="input-text-2" placeholder="이름을 입력해주세요." v-model="member.name">
                 </label>
             </div>
 
             <div class="input-field-2 m-t-1">
                 <label for="name" class="name-label">
                 <span class="d-none">nickname</span>
-                <input type="text" id="nickname" name="nickname" class="input-text-2" placeholder="닉네임을 입력해주세요.">
+                <input type="text" id="nickname" name="nickname" class="input-text-2" placeholder="닉네임을 입력해주세요." v-model="member.nickname">
                 </label>
             </div>
     
             <div class="input-field-2 m-t-1">
                 <label for="email" class="email-label">
                 <span class="d-none">email</span>
-                <input type="text" id="email" name="email" class="input-text-2" placeholder="이메일을 입력해주세요.">
+                <input type="text" id="email" name="email" class="input-text-2" placeholder="이메일을 입력해주세요." v-model="member.email">
                 <input class="btn-post" id="btn-post" type="button" value="전송">
                 </label>
             </div>
@@ -107,6 +107,25 @@ export default {
     },
     methods: {
 
+        async addMember(){
+            console.log("addMember");
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify(this.member);
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:8080/members", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        },
 
         async submit(){
             console.log("submit");
