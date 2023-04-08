@@ -200,7 +200,7 @@
       
   }
 </script>
-<style>
+<style scoped>
 	@import url(/css/component/component.css);
 	@import url(/css/component/component-sign-up.css);
 </style>
