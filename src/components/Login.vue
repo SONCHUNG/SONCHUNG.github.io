@@ -27,7 +27,7 @@
                         </label>
                     </div>
                     <div>
-                        <input class="btn-2" type="submit" value="로그인">
+                        <router-link to="/member/stuff/list"><input class="btn-2" type="submit" value="로그인"></router-link>
                     </div>
                 </form>
 
@@ -40,7 +40,7 @@
                 </div>
             
                 <div class="m-t-68px">
-                    <a class="signup-text" href="./sign-up.html">회원가입</a>
+                    <router-link to="signup" class="signup-text">회원가입</router-link>
                 </div>
             </div>
 

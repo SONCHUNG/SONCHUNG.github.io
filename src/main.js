@@ -28,7 +28,7 @@ const routes = [
     ] },
     { path: '/member', component: MemberLayout, children:[
         {path: 'stuff/list', component: List},
-        {path: 'stuff/detail', component: Detail},
+        {path: 'stuff/:id', component: Detail},
         {path: 'stuff/reg', component: Reg},
         {path: 'stuff/listsearch', component: Listsearch},
         {path: 'stuff/gps', component: Gps},

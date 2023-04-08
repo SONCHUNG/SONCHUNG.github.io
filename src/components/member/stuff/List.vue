@@ -1,3 +1,34 @@
+<script>
+export default {
+    data() {
+        return {
+            list:[],
+            categoryList:[]
+        };
+    },
+    methods: {
+        load(){
+            fetch("http://localhost:8080/member/stuffs")
+            .then(response => response.json())
+            .then(list => this.list = list)
+            .catch(error => console.log('error', error));
+        },
+        categoryLoad(){
+            fetch("http://localhost:8080/member/stuffs/categories")
+            .then(response => response.json())
+            .then(categoryList => this.categoryList = categoryList)
+            .catch(error => console.log('error', error));
+        },
+    },
+    mounted() {
+        this.load()
+        this.categoryLoad()
+    },
+}
+</script>
+<style scoped>
+    @import url(/css/component/member/stuff/component-list.css);
+</style>
 <template>
             <section class="canvas p-rel b-rad-2">
             <header class="d-fl-al header-jc">
@@ -33,67 +64,37 @@
                     </a>
                 </div>
             </header>
-            
+
+            <!-- 카테고리 목록 -->
  			<nav>
                   <form action="list.html" method="get" class="header-categ-box">
                   	 <div> 
                   	 	<button class="header-categ" name="c" value="1">전체</button>
                   	 </div>
-                  	 	
-			         <div>
-			            <button class="header-categ" name="c" value="1">일반상품</button>
-			            <button class="header-categ" name="c" value="2">딜리버리 푸드</button>
-            			<button class="header-categ" name="c" value="3">대형마트 대량 물품</button>
+			         <div v-for="c in categoryList">
+			            <button class="header-categ" name="c" :value="c.id">{{c.name}}</button>
 			         </div>
 			      </form>
 			</nav>
 
             <!-- 나중에 onclick 이벤트 하트 부분만 빼고 넣기 -->
-            <main>
-                <div class="d-gr li-gr m-t-13px list-cl" onclick="location.href='detail.html'">
+            <main v-for="s in list">
+                <router-link :to="'./'+s.id"> <div class="d-gr li-gr m-t-13px list-cl">
                     <!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
                     <div class="li-pic b-rad-1">사진</div>
-                    <div class="li-categ header-categ li-header-categ">딜리버리 푸드</div>
+                    <div class="li-categ header-categ li-header-categ">{{s.categoryName}}</div>
                     <div class="li-heart icon icon-heart">
                         찬하트
                     </div>
-                    <div class="li-subj">서강대 앞 교촌치킨 시켜드실 분</div>
-                    <div class="li-member">2/5</div>
-                    <div class="li-date">2월 3일 금 18시까지</div>
+                    <div class="li-subj">{{s.title}}</div>
+                    <div class="li-member">{{s.numPeople}}</div>
+                    <div class="li-date">{{s.deadline}}</div>
+                    <!-- <h1 class="icon icon-line">선 긋기</h1> -->
                 </div>
                 <div>
                     <h1 class="icon icon-line">선 긋기</h1>
                 </div>
-
-                <div class="d-gr li-gr  list-cl" onclick="location.href='detail.html'">
-                    <!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
-                    <div class="li-pic b-rad-1">사진</div>
-                    <div class="li-categ header-categ li-header-categ">딜리버리 푸드</div>
-                    <div class="li-heart icon icon-heart">
-                        찬하트
-                    </div>
-                    <div class="li-subj">서강대 앞 교촌치킨 시켜드실 분</div>
-                    <div class="li-member">2/5</div>
-                    <div class="li-date">2월 3일 금 18시까지</div>
-                </div>
-                <div>
-                    <h1 class="icon icon-line">선 긋기</h1>
-                </div>
-
-                <div class="d-gr li-gr list-cl" onclick="location.href='detail.html'">
-                    <!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
-                    <div class="li-pic b-rad-1">사진</div>
-                    <div class="li-categ header-categ li-header-categ">딜리버리 푸드</div>
-                    <div class="li-heart icon icon-heart">
-                        찬하트
-                    </div>
-                    <div class="li-subj">서강대 앞 교촌치킨 시켜드실 분</div>
-                    <div class="li-member">2/5</div>
-                    <div class="li-date">2월 3일 금 18시까지</div>
-                </div>
-                <div>
-                    <h1 class="icon icon-line">선 긋기</h1>
-                </div>
+            </router-link>
             </main>
 
             <nav class="navi-bar d-fl-jf" style="display: none;">
