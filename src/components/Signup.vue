@@ -200,6 +200,7 @@
       
   }
 </script>
-<style lang="">
-    
+<style>
+	@import url(/css/component/component.css);
+	@import url(/css/component/component-sign-up.css);
 </style>

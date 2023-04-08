@@ -43,7 +43,7 @@ export default {
                     <!-- image : modal -->
                     <div class="detail-modal">
                         
-                        <div class="icon-close" src="../../images/member/stuff/heart.png">&times;</div>
+                        <div class="icon-close" src="../../images/member/stuff/heart.png"></div>
                         <!-- <img class="icon-close" src="../../images/member/stuff/heart.png"> -->
                         <img class="modal-img">
                     </div>

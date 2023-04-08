@@ -34,34 +34,7 @@ export default {
 	}
 }
 </script>
-<script>
-export default {
-    data() {
-        return {
-            list:[],
-            categoryList:[]
-        };
-    },
-    methods: {
-        load(){
-            fetch("http://localhost:8080/member/stuffs")
-            .then(response => response.json())
-            .then(list => this.list = list)
-            .catch(error => console.log('error', error));
-        },
-        categoryLoad(){
-            fetch("http://localhost:8080/member/stuffs/categories")
-            .then(response => response.json())
-            .then(categoryList => this.categoryList = categoryList)
-            .catch(error => console.log('error', error));
-        },
-    },
-    mounted() {
-        this.load()
-        this.categoryLoad()
-    },
-}
-</script>
+
 <style scoped>
 @import url(/css/component/member/stuff/component-list.css);
 </style>
@@ -116,7 +89,7 @@ export default {
 		<main>
 			<div class="stuff-list" v-for="stuff in list">
 				<router-link :to="'./' + stuff.id">
-					<div class="d-gr li-gr m-t-13px list-cl" onclick="location.href='detail.html'">
+					<div class="d-gr li-gr m-t-13px list-cl">
 						<!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
 						<div class="li-pic b-rad-1">사진</div>
 						<div class="li-categ header-categ li-header-categ">{{ stuff.categoryName }}</div>
@@ -131,6 +104,11 @@ export default {
 						<h1 class="icon icon-line">선 긋기</h1>
 					</div>
 				</router-link>
+			</div>
+
+			<button class="btn-next more-list" @click="addListHandler">더보기</button>
+			<div class="reg-stuff">
+				+
 			</div>
 
 		</main>
