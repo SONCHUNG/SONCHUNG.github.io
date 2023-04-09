@@ -4,17 +4,29 @@
 export default {
     data() {
         return {
-            stuff:{}
+            stuff:{},
+            category:{},
+            image:{}
         }
     },
     mounted() {
+        // fetch(`http://localhost:8080/member/stuffs/${this.$route.params.id}`)
+        //     .then(response => response.json())
+        //     .then(stuff => this.stuff = stuff)
+        //     .catch(error => console.log("error", error));
         fetch(`http://localhost:8080/member/stuffs/${this.$route.params.id}`)
             .then(response => response.json())
-            .then(stuff => this.stuff = stuff)
+            .then(data => {
+                this.stuff = data.stuff;
+                this.category = data.category;
+                this.image = data.image;
+            })
             .catch(error => console.log("error", error));
     },
     updated() {
         console.log(this.stuff);
+        console.log(this.image);
+        console.log(this.category);
     },
     
 }
@@ -38,7 +50,8 @@ export default {
             <div class="detail-main">
                 <!-- detail-img : detail-main - item1 -->
                 <div class="detail-img">
-                    <img src="../../../../images/member/stuff/chick.jpg" alt="img">
+                    <!-- <img src="../../../../images/member/stuff/chick.jpg" alt="img"> -->
+                    <img :src="'/images/member/stuff/'+image.name" alt="img">
                     
                     <!-- image : modal -->
                     <div class="detail-modal">
@@ -56,7 +69,7 @@ export default {
                 <!-- detail-heading : detail-main - item2 -->
                 <section class="canvas detail-heading">
                     <h1 class="d-none">heading</h1>
-                    <div class="detail-category">대형마트 대량 물품</div>
+                    <div class="detail-category">{{category.name}}</div>
                     <p class="detail-heading-title">{{stuff.title}}</p>
                     <div class="d-fl">
                         <div class="detail-price">{{stuff.price}}</div>
