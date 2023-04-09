@@ -9,11 +9,20 @@ export default {
             image:{}
         }
     },
+    method:{
+        imageZoomInHandler(){
+            console.log("zoom-in");
+        },
+        imageZoomOutHandler(){
+            console.log("zoom-out");
+        }
+    },
     mounted() {
         // fetch(`http://localhost:8080/member/stuffs/${this.$route.params.id}`)
         //     .then(response => response.json())
         //     .then(stuff => this.stuff = stuff)
         //     .catch(error => console.log("error", error));
+
         fetch(`http://localhost:8080/member/stuffs/${this.$route.params.id}`)
             .then(response => response.json())
             .then(data => {
@@ -22,6 +31,9 @@ export default {
                 this.image = data.image;
             })
             .catch(error => console.log("error", error));
+            
+        // this.imageZoomInHandler();
+        // this.imageZoomOutHandler();
     },
     updated() {
         console.log(this.stuff);
@@ -33,9 +45,6 @@ export default {
 
 </script>
 
-<style scoped>
-
-</style>
 
 <template>
         <!-- detail : flex-container -->
@@ -51,7 +60,7 @@ export default {
                 <!-- detail-img : detail-main - item1 -->
                 <div class="detail-img">
                     <!-- <img src="../../../../images/member/stuff/chick.jpg" alt="img"> -->
-                    <img :src="'/images/member/stuff/'+image.name" alt="img">
+                    <img :src="'/images/member/stuff/'+image.name" alt="img" >
                     
                     <!-- image : modal -->
                     <div class="detail-modal">
