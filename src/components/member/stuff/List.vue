@@ -3,9 +3,9 @@
 export default {
 	data() {
 		return {
-			list: '',
 			page: '',
-			categoryList: ''
+			list: [],
+			categoryList: [],
 		};
 	},
 	methods: {
@@ -13,24 +13,28 @@ export default {
 			this.page++;
 			fetch(`http://localhost:8080/member/stuffs?p=${this.page}`)
 				.then(response => response.json())
-				.then(list => {
-					this.list = list;
-					console.log(list);
+				.then(dataList => {
+					this.list = dataList.list;
+					this.categoryList = dataList.categoryList;
+					
+					console.log(this.list);
+					console.log(this.categoryList);
 				})
 				.catch(error => console.log('error', error));
 		},
-		categoryLoad() {
-			fetch("http://localhost:8080/member/stuffs/categories")
-				.then(response => response.json())
-				.then(categoryList => this.categoryList = categoryList)
-				.catch(error => console.log('error', error));
-		},
+		// categoryLoad() {
+		// 	fetch("http://localhost:8080/member/stuffs/categories")
+		// 		.then(response => response.json())
+		// 		.then(categoryList => this.categoryList = categoryList)
+		// 		.catch(error => console.log('error', error));
+		// },
 	},
 	mounted() {
 		this.page = 0;
 		this.addListHandler();
-		this.categoryLoad();
+
 		console.log(this.list);
+		console.log(this.categoryList);
 	}
 }
 </script>
@@ -100,7 +104,9 @@ export default {
 				<router-link :to="'./' + stuff.id">
 					<div class="d-gr li-gr m-t-13px list-cl">
 						<!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
-						<div class="li-pic b-rad-1">사진</div>
+						<div class="li-pic b-rad-1" >
+							<img class="listview-image" :src="'/images/member/stuff/'+stuff.imageName" alt="img" >
+						</div>
 						<div class="li-categ header-categ li-header-categ">{{ stuff.categoryName }}</div>
 						<div class="li-heart icon icon-heart">
 							찬하트
