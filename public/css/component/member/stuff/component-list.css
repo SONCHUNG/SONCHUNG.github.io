@@ -36,20 +36,24 @@
 .li-pic {
   grid-area: pic;
   grid-area: pic;
-  background-image: url(../../../../images/member/stuff/chick.jpg);
+  /* background-image: url(../../../../images/member/stuff/chick.jpg);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: cover; */
 
   width: 54px;
   height: 54px;
 
   display: inline-block;
   overflow: hidden;
-  text-indent: -999px;
+  /* text-indent: -999px; */
   justify-self: center;
   align-self: center;
 }
+  .stuff-list img{
+      width: 100%;
+      height: 100%;
+  }
 
 .li-header-categ {
   margin: auto;

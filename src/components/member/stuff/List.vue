@@ -3,9 +3,9 @@
 export default {
 	data() {
 		return {
-			list: '',
 			page: '',
-			categoryList: ''
+			list: [],
+			categoryList: [],
 		};
 	},
 	methods: {
@@ -13,24 +13,28 @@ export default {
 			this.page++;
 			fetch(`http://localhost:8080/member/stuffs?p=${this.page}`)
 				.then(response => response.json())
-				.then(list => {
-					this.list = list;
-					console.log(list);
+				.then(dataList => {
+					this.list = dataList.list;
+					this.categoryList = dataList.categoryList;
+					
+					console.log(this.list);
+					console.log(this.categoryList);
 				})
 				.catch(error => console.log('error', error));
 		},
-		categoryLoad() {
-			fetch("http://localhost:8080/member/stuffs/categories")
-				.then(response => response.json())
-				.then(categoryList => this.categoryList = categoryList)
-				.catch(error => console.log('error', error));
-		},
+		// categoryLoad() {
+		// 	fetch("http://localhost:8080/member/stuffs/categories")
+		// 		.then(response => response.json())
+		// 		.then(categoryList => this.categoryList = categoryList)
+		// 		.catch(error => console.log('error', error));
+		// },
 	},
 	mounted() {
 		this.page = 0;
 		this.addListHandler();
-		this.categoryLoad();
+
 		console.log(this.list);
+		console.log(this.categoryList);
 	}
 }
 </script>
@@ -63,10 +67,19 @@ export default {
 						</div>
 						<div class="side-menu">
 							<div></div>
-							<span class="sidebar-padding" onclick="location.href='list.html'">홈</span>
-							<span class="sidebar-padding" onclick="location.href='list-search.html'">검색하기</span>
-							<span class="sidebar-padding" onclick="location.href='reg.html'">글 등록하기</span>
-							<span class="sidebar-padding" onclick="location.href='../participation/list.html'">채팅하기</span>
+							
+							<span class="sidebar-padding">
+								<router-link to="/member/stuff/list">홈</router-link>
+							</span>
+							<span class="sidebar-padding">
+								<router-link to="/member/stuff/listsearch">검색하기</router-link>
+							</span>
+							<span class="sidebar-padding">
+								<router-link to="/member/stuff/reg">글 등록하기</router-link>
+							</span>
+							<span class="sidebar-padding">
+								<router-link to="/member/participation/list">채팅하기</router-link>
+							</span>
 						</div>
 					</div>
 				</a>
@@ -91,7 +104,9 @@ export default {
 				<router-link :to="'./' + stuff.id">
 					<div class="d-gr li-gr m-t-13px list-cl">
 						<!-- 나중에 전체를 div로 묶어서 main으로 크게 묶기 -->
-						<div class="li-pic b-rad-1">사진</div>
+						<div class="li-pic b-rad-1" >
+							<img class="listview-image" :src="'/images/member/stuff/'+stuff.imageName" alt="img" >
+						</div>
 						<div class="li-categ header-categ li-header-categ">{{ stuff.categoryName }}</div>
 						<div class="li-heart icon icon-heart">
 							찬하트
@@ -107,24 +122,25 @@ export default {
 			</div>
 
 			<button class="btn-next more-list" @click="addListHandler">더보기</button>
-			<div class="reg-stuff">
-				+
-			</div>
-
+			<router-link to="/member/stuff/reg">
+				<div class="reg-stuff">
+					+
+				</div>
+			</router-link>
 		</main>
 
 		<nav class="navi-bar d-fl-jf" style="display: none;">
 			<div>
-				<router-link class="icon icon-home m-notop" to="./list">home</router-link>
+				<router-link to="/member/stuff/list" class="icon icon-home m-notop">home</router-link>
 			</div>
 			<div>
-				<a class="icon icon-search m-notop" href="./list-search.html">search</a>
+				<router-link to="/member/stuff/listsearch" class="icon icon-search m-notop">search</router-link>
 			</div>
 			<div>
-				<a class="icon icon-post m-notop" href="./reg.html">post+</a>
+				<router-link to="/member/stuff/reg" class="icon icon-post m-notop">post+</router-link>
 			</div>
 			<div>
-				<a class="icon icon-chat m-notop" href="../participation/list.html">chat</a>
+				<router-link to="/member/participation/list" class="icon icon-chat m-notop">chat</router-link>
 			</div>
 			<div>
 				<a class="icon icon-info m-notop">mypage</a>

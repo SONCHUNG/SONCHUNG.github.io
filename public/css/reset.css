@@ -63,7 +63,7 @@ a{
 }
 
 a:hover{
-	text-decoration: underline;
+	/*text-decoration: underline;*/ 
 }
 
 /* 텍스트 에어리어 */

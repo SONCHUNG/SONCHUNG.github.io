@@ -53,130 +53,100 @@
   <section class="reg2-form" :class="{ 'd-none': isNext === false }">
     <h1 class="d-none">reg2</h1>
 
-    <section class="canvas-1 d-fl fl-dir-col">
-      <h1 class="d-none">reg2</h1>
+        <section class="canvas-1 d-fl fl-dir-col">
 
-      <!-- =================== reg2 : header ===================== -->
-      <header class="">
-        <div class="reg2-back">
-          <a class="icon icon-back" @click.prevent="dnoneHandler">뒤로가기</a>
-        </div>
+            <h1 class="d-none">reg2</h1>
+        
+            <!-- =================== reg2 : header ===================== -->
+            <header class="">
+                
+                <div class="reg2-back">
+                    <a class="icon icon-back" @click.prevent="dnoneHandler">뒤로가기</a>
+                </div>
+                
+                <div class="hd-title-box">
+                    <h1 class="hd-title">글 등록하기</h1>
+                </div>
+            </header>
+    
+            <!-- =================== reg2 : main ===================== -->
+            <main class="d-fl-jf m-b">
 
-        <div class="hd-title-box">
-          <h1 class="hd-title">글 등록하기</h1>
-        </div>
-      </header>
+                <form @submit.prevent="upload" method="post" enctype="multipart/form-data" ref="form">
+                    <div>
+                        <input type="submit" class="reg2-post" value="올리기">
+                    </div>
 
-      <!-- =================== reg2 : main ===================== -->
-      <main class="d-fl-jf m-b">
-        <form enctype="multipart/form-data">
-          <div>
-            <input type="submit" class="reg2-post" value="올리기" />
-          </div>
+                     <!-- 이미지 업로드  -->
+                    <div class="file-box">
+                        <label for="file">
+                            <div class="btn-file">파일업로드</div>
+                            <div class="btn-uploaded-files">
+                                파일업로드된 파일들1
+                                <div class="btn-uploaded-files" id="result_file">
+                                    <img class="uploaded-files" :src="imageURL" />
+                                </div>
+                            </div>
+                            <div class="btn-uploaded-files">파일업로드된 파일들2</div>
+                        </label>
+    
+                        <input type="file" class="d-none" id="file" name="imgs" multiple accept="image/*" @change="uploadImage">
+                    </div>
 
-          <div class="file-box">
-            <label for="file">
-              <div class="btn-file">파일업로드</div>
-              <div class="btn-uploaded-files">파일업로드된 파일들1</div>
-              <div class="btn-uploaded-files">파일업로드된 파일들2</div>
-            </label>
+                    <!-- 카테고리 목록 선택 -->
+                    <select class="category-box" name="categoryList">
+                        <option v-for="c in categoryList" :value="c.id" class="" name="categoryId" v-text="c.name"></option>
+                    </select>
+                    
+                    <div class="select-box">
+                        <label for="title" class="input-field-txt">제목</label>
+                        <input type="text" class="input-field" id="title" name="title" v-model="stuff.title">
+                    </div>
+                    
+                    
+                    <!-- 인원수 조절 -->
+                    <div class="select-box2 d-fl">
+                        <label for="" class="input-field-txt">인원</label> 
+                            <div class="people-count-box">
+                                <input class="btn-minus" id="people-count"
+                                    type="button" value="" @click.prevent="numPeopleMinusHandler">
 
-            <input type="file" class="d-none" id="file" name="file" multiple />
-          </div>
+                                <input type="text" class="people-count-num" name="numPeople" id="result" v-model="stuff.numPeople">
+                                
+                                <input class="btn-plus" id="people-count"
+                                    type="button" value="" @click.prevent="numPeoplePlusHandler">
+                            </div>
+                    </div>
+                    
+                    <!-- 마감일 설정 -->
+                    <div id="btn-date" class="select-box d-fl jf-sb">
+                        <label for="datetime-local" class="input-field-txt">마감시간</label>
+                            <input
+                                class="date-pic"
+                                type="datetime-local"
+                                data-placeholder="날짜를 선택해주세요."
+                                required
+                                aria-required="true" 
+                                name="deadline"
+                                className={styles.selectDay}
+                                onChange={StartDateValueHandler}
+                                v-model="stuff.deadline"
+                                >
+                                <!-- value={startDateValue} -->
+                                <!--  -->
+                    </div>
 
-          <!-- 기존 카테고리 -->
-          <select class="category-box" name="categoryList">
-            <option
-              v-for="c in categoryList"
-              :value="c.id"
-              class=""
-              name="categoryId"
-              v-text="c.name"
-            ></option>
-            <!-- <option class="" value="merchandise" name="merchandise">일반상품</option>
-                        <option class="" value="supermarket" name="supermarket">대형마트 대량 물품</option>
-                        <option class="" value="delivery_food" name="delivery_food">딜리버리 푸드</option> -->
-          </select>
 
-          <div class="select-box">
-            <label for="title" class="input-field-txt">제목</label>
-            <input type="text" class="input-field" id="title" name="title" />
-          </div>
+                    <div class="select-box">
+                        <label for="price" class="input-field-txt">가격</label>
+                        <input type="text" class="input-field" name="price" id="price" v-model="stuff.price">
+                    </div>
 
-          <!-- 인원수 조절 -->
-          <div class="select-box2 d-fl">
-            <label for="" class="input-field-txt">인원</label>
-            <div class="people-count-box">
-              <input
-                class="btn-minus"
-                id="people-count"
-                type="button"
-                value=""
-                @click.prevent="numPeopleMinusHandler"
-              />
+                    <!-- required 속성: 해당 필드가 기재되었을 때만 submit 가능. -->
+                    
 
-              <input
-                type="text"
-                class="people-count-num"
-                name="numPeople"
-                id="result"
-                v-model="stuff.numPeople"
-              />
-
-              <input
-                class="btn-plus"
-                id="people-count"
-                type="button"
-                value=""
-                @click.prevent="numPeoplePlusHandler"
-              />
-            </div>
-          </div>
-
-          <!-- 인원수 조절 JS -->
-          <!-- <script>
-                        function count(type)  {
-                          // 결과를 표시할 element
-                          const resultElement = document.getElementById('result');
-                          // 현재 화면에 표시된 값
-                          let number = resultElement.innerText;
-                          // 더하기/빼기
-                          if(type === 'plus') {
-                            number = parseInt(number) + 1;
-                          }else if(type === 'minus')  {
-                            number = parseInt(number) - 1;
-                          }
-                          // 결과 출력
-                          resultElement.innerText = number;
-                        }
-                        </script> -->
-
-          <div id="btn-date" class="select-box d-fl jf-sb">
-            <label for="datetime-local" class="input-field-txt">마감시간</label>
-            <input
-              class="date-pic"
-              type="datetime-local"
-              data-placeholder="날짜를 선택해주세요."
-              required
-              aria-required="true"
-              value="{startDateValue}"
-              className="{styles.selectDay}"
-            />
-            <!-- onChange={StartDateValueHandler} -->
-          </div>
-
-          <div class="select-box">
-            <label for="price" class="input-field-txt">가격</label>
-            <input type="text" class="input-field" name="price" id="price" />
-          </div>
-
-         
-
- 
-          <!-- required 속성: 해당 필드가 기재되었을 때만 submit 가능. -->
-
-          <!-- 복구용 코드(인원수) -->
-          <!-- <div class="select-box">
+                    <!-- 복구용 코드(인원수) -->
+                    <!-- <div class="select-box">
                         <label for="people-count" class="input-field-txt">인원수</label>
                         <input type="text" class="input-field" id="people-count">
                     </div> -->
@@ -225,86 +195,128 @@
                           }
                         });
                     </script> -->
+                           
+                    <div class="select-box">
+                        <label for="place" class="input-field-txt">장소</label>
+                        <input type="text" class="input-field" name="place" id="place" v-model="stuff.place">
+                    </div>
+    
+                    <div class="select-box">
+                        <label for="url" class="input-field-txt">링크</label>
+                        <input type="text" class="input-field" name="url" id="url" v-model="stuff.url">
+                    </div>
+    
+                    <div class="select-box select-content d-fl fl-dir-col">
+                        <label for="content" class="input-field-txt2">내용</label>
+                        <textarea class="input-field input-content" name="content" id="content" cols="30" rows="10" v-model="stuff.content"></textarea>
+                    </div>
+                </form>
+            </main>
 
-          <div class="select-box">
-            <label for="place" class="input-field-txt">장소</label>
-            <input type="text" class="input-field" name="place" id="place" />
-          </div>
-
-          <div class="select-box">
-            <label for="url" class="input-field-txt">링크</label>
-            <input type="text" class="input-field" name="url" id="url" />
-          </div>
-
-          <div class="select-box select-content d-fl fl-dir-col">
-            <label for="content" class="input-field-txt2">내용</label>
-            <textarea
-              class="input-field input-content"
-              name="content"
-              id="content"
-              cols="30"
-              rows="10"
-            ></textarea>
-          </div>
-        </form>
-      </main>
+        </section>
     </section>
-  </section>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      isNext: false,
-      stuff: {
-        title: "아메리카노",
-        place: "이촌동",
-        numPeople: "2",
-        deadline: "",
-        price: "2000",
-        url: "www.naver.com",
-        content: "5000",
-        imageList: [
-          {
-            id: 3,
-            name: "24324324",
-            stuffId: 3,
-          },
-        ],
-      },
-    };
-  },
-  methods: {
-    /* reg1 <-> reg2 이동 이벤트 */
-    dnoneHandler() {
-      this.isNext = !this.isNext;
-    },
-    /* 인원 수 증감 이벤트 */
-    numPeoplePlusHandler(stuff) {
-      if (this.stuff.numPeople >= 1 && this.stuff.numPeople < 16)
-        this.stuff.numPeople++;
-    },
-    numPeopleMinusHandler(stuff) {
-      if (this.stuff.numPeople >= 2 && this.stuff.numPeople <= 16)
-        this.stuff.numPeople--;
-    },
-    loadCategory() {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
+    export default {
+        data() {
+            return {
+                isNext:false,
+                categoryList:[],
+                file:[],
+                imageURL:'',
+                stuff:{
+                    title: "아메리카노",
+                    place: "이촌동",
+                    numPeople: "2",
+                    categoryId: 3,
+                    deadline: "",
+                    price: "2000",
+                    url: "www.naver.com",
+                    content: "5000",
+                    imageList: [
+                        {
+                            "id": 3,
+                            "name": "24324324",
+                            "stuffId": 3
+                        }
+                    ]
+                },
 
-      fetch("http://localhost:8080/member/stuffs/categories", requestOptions)
-        .then((response) => response.json())
-        .then((categoryList) => {
-          console.log(categoryList);
-          this.categoryList = categoryList;
-        })
-        .catch((error) => console.log("error", error));
-    },
-  },
-};
+            }
+        },
+        methods: {
+            /* reg1 <-> reg2 이동 이벤트 */
+            dnoneHandler(){
+                this.isNext = !this.isNext;
+            },
+
+            /* 인원 수 증감 이벤트 */
+            numPeoplePlusHandler(stuff){
+		    if(this.stuff.numPeople>=1 && this.stuff.numPeople<16)
+		        this.stuff.numPeople++;
+            },
+            numPeopleMinusHandler(stuff){
+                if(this.stuff.numPeople>=2 && this.stuff.numPeople<=16)
+                this.stuff.numPeople--;
+            },
+
+            /* selectbox에 카테고리 목록 불러오기 */
+            loadCategory(){
+                var requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+                
+                fetch("http://localhost:8080/member/stuffs/categories", requestOptions)
+                    .then(response => response.json())
+                    .then(categoryList => {
+                    console.log(categoryList);
+                    this.categoryList = categoryList;
+                    })
+                    .catch(error => console.log('error', error));
+            },
+
+            // 파일 업로드시, 이벤트 처리
+            upload(){
+                console.log(this.stuff);
+
+                var formData = new FormData(this.$refs.form);
+
+                var requestOptions = {
+                    method: 'POST',
+                    body: formData,
+                    redirect: 'follow'
+                };
+
+                fetch("http://localhost:8080/member/stuffs/upload", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+
+            },
+
+            // 썸네일 조작
+            uploadImage(e){
+                this.file = e.target.files;
+                console.log(this.file);
+                url = URL.createObjectURL(this.file[0]);
+                console.log(url);
+                this.imageURL = url;
+            },
+        },
+        mounted() {
+            this.numPeoplePlusHandler();
+            this.numPeopleMinusHandler();
+
+            this.loadCategory();
+
+	    },
+        updated(){
+            //console.log(this.categoryList.id);
+        }
+        
+    }
 </script>
 
 <style scoped>

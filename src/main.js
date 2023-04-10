@@ -11,7 +11,7 @@ import MemberLayout from './components/member/Layout.vue';    // 그냥 Layout�
 import List from './components/member/stuff/List.vue';
 import Detail from './components/member/stuff/Detail.vue';
 import Reg from './components/member/stuff/Reg.vue';
-import Listsearch from './components/member/stuff/ListSearch.vue';
+import ListSearch from './components/member/stuff/ListSearch.vue';
 import Gps from './components/member/stuff/Gps.vue';
 import ParticipationList from './components/member/participation/List.vue';
 
@@ -34,7 +34,7 @@ const routes = [
         {path: 'stuff/list', component: List},
         {path: 'stuff/:id', component: Detail},
         {path: 'stuff/reg', component: Reg},
-        {path: 'stuff/listsearch', component: Listsearch},
+        {path: 'stuff/listsearch', component: ListSearch},
         {path: 'stuff/gps', component: Gps},
         {path: 'participation/list', component: ParticipationList}
     ] },
