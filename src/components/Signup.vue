@@ -270,9 +270,8 @@ export default {
         headers: myHeaders,
         redirect: "follow",
       };
-
       fetch(
-        "http://localhost:8080/members/mailConfirm?email=cndfuf75@gmail.com",
+        `http://localhost:8080/members/mailConfirm?email=${this.member.email}`,
         requestOptions
       )
         .then((response) => response.text())
