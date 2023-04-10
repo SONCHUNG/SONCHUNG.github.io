@@ -49,36 +49,39 @@ export default {
 <style scoped></style>
 
 <template>
-        <!-- detail : flex-container -->
-        <div class="detail">
-        <header>
-            <router-link router-link to="list" class="icon icon-back">뒤로가기</router-link>
-        </header>
+  <!-- detail : flex-container -->
+  <div class="detail">
+    <header>
+      <router-link router-link to="list" class="icon icon-back"
+        >뒤로가기</router-link
+      >
+    </header>
 
-        <!-- detail - item1  -->
-        <main>
-            <!-- detail-main : flex-container -->
-            <div class="detail-main">
-                <!-- detail-img : detail-main - item1 -->
-                <div class="detail-img">
-                    <!-- <img src="../../../../images/member/stuff/chick.jpg" alt="img"> -->
-                    <img :src="'/images/member/stuff/'+image.name" alt="img" >
-                    
-                    <!-- image : modal -->
-                    <div class="detail-modal">
-                        
-                        <div class="icon-close" src="../../images/member/stuff/heart.png"></div>
-                        <!-- <img class="icon-close" src="../../images/member/stuff/heart.png"> -->
-                        <img class="modal-img">
-                    </div>
+    <!-- detail - item1  -->
+    <main>
+      <!-- detail-main : flex-container -->
+      <div class="detail-main">
+        <!-- detail-img : detail-main - item1 -->
+        <div class="detail-img">
+          <!-- <img src="../../../../images/member/stuff/chick.jpg" alt="img"> -->
+          <img :src="'/images/member/stuff/' + image.name" alt="img" />
+
+          <!-- image : modal -->
+          <div class="detail-modal">
+            <div
+              class="icon-close"
+              src="../../images/member/stuff/heart.png"
+            ></div>
+            <!-- <img class="icon-close" src="../../images/member/stuff/heart.png"> -->
+            <img class="modal-img" />
+          </div>
 
           <!-- image : slideshow -->
         </div>
-
         <!-- detail-heading : detail-main - item2 -->
         <section class="canvas detail-heading">
           <h1 class="d-none">heading</h1>
-          <div class="detail-category">대형마트 대량 물품</div>
+          <div class="detail-category">{{ category.name }}</div>
           <p class="detail-heading-title">{{ stuff.title }}</p>
           <div class="d-fl">
             <div class="detail-price">{{ stuff.price }}</div>
@@ -106,37 +109,6 @@ export default {
         </section>
       </div>
     </main>
-                <!-- detail-heading : detail-main - item2 -->
-                <section class="canvas detail-heading">
-                    <h1 class="d-none">heading</h1>
-                    <div class="detail-category">{{category.name}}</div>
-                    <p class="detail-heading-title">{{stuff.title}}</p>
-                    <div class="d-fl">
-                        <div class="detail-price">{{stuff.price}}</div>
-                        <div class="detail-status">모집중</div>
-                        <div class="detail-heart" >찜</div>
-                        <div class="icon-heart">하트</div>
-                    </div>
-                </section>
-                <!-- detail-info : detail-main - item3 -->
-                <section class="canvas detail-info">
-                    <h1 class="d-none">info</h1>
-                    <div>•인원</div>
-                    <div>2 / {{stuff.numPeople}}</div>
-                    <div>•기한</div>
-                    <div>{{stuff.deadline}}</div>
-                    <div>•장소</div>
-                    <div>{{stuff.place}}</div>
-                </section>
-                <!-- detail-writing : detail-main - item4 -->
-                <section class="canvas detail-writing">
-                    <h1 class="d-none">writing</h1>
-                    <p class="detail-paragraph"> 
-                       {{stuff.content}}
-                    </p>   
-                </section>
-            </div>
-        </main>
 
     <!-- detail-join : detail - itme2  -->
 
